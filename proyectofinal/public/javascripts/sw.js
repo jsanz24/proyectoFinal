@@ -3,20 +3,27 @@ const CACHE_VERSION = 1;
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME + CACHE_VERSION.toString()).then(function(cache) {
+    caches.open(CACHE_NAME + CACHE_VERSION.toString())
+    .then(function(cache) {
       return cache.addAll([
-        'index.html',
-        'sw.js',
-        'gauge/gauge.js',
-        'main.js',
-        'styles.css',
-        'images/punchometer.png',
+        '/main.js',
+        '/sw.js',
+        '/script.js',
+        '../gauge/gauge.js',
+        '../stylesheets/styles.css',
+        '../stylesheets/style.scss',
+        '../../views/layout.hbs',
+        '../../views/error.hbs',
+        '../../views/index.hbs',
+        '../../views/not-found.hbs',
+        '../../routes/index.js',
+        '../../app.js',
       ]);
     })
   );
 });
 
-this.addEventListener('fetch', event => {
+self.addEventListener('fetch', event => {
   //Retrieval from cache
   event.respondWith(caches.match(event.request).then(function(response) {
     if (response !== undefined) {  // Found match in cache

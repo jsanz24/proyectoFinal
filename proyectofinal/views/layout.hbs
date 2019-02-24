@@ -11,19 +11,11 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.json">
   <link rel="shortcut icon" sizes="192x192" href="images/app-icon-192.png">
-  <script src="main.js"></script>
-  <script src="gauge/gauge.js"></script>
+  <script src="../javascripts/main.js"></script>
+  <script src="../gauge/gauge.js"></script>
 </head>
 
 <body>
-  <div class="container" align="center">
-      <div id="intro" class="punchAnimation">
-         <img class="logo" src="images/punchometer.png"/>
-         <div class="readyToPunch">
-            Ready to measure the strenght of your punch?
-         </div>
-      </div>
-  </div>
 
   <div id="game" class="game">
       <div id="game_text" class="shakeToStart" style="display:none;">
@@ -35,24 +27,24 @@
         <div>km/h</div>
       </div>
   </div>
-  
+  {{{body}}}
   <script>
     // Service worker
-    if ('serviceWorker' in navigator) {
+    /*if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-            navigator.serviceWorker.register('sw.js').then(function(registration) {
+            navigator.serviceWorker.register('../javascripts/sw.js').then(function(registration) {
             }, function(err) {
             console.log('ServiceWorker registration failed: ', err);
             });
         });
-    }
+    }*/
     // Entry point after animation
-    let intro = document.getElementById("intro");
+        setTimeout(main, 500);
+    /*let intro = document.getElementById("intro");
     function onAnimationEnd() {
         intro.removeEventListener("animationend", onAnimationEnd);
-        setTimeout(main, 2000);
     }
-    intro.addEventListener("animationend", onAnimationEnd, false);
+    intro.addEventListener("animationend", onAnimationEnd, false);*/
   </script>
 </body>
 </html>
