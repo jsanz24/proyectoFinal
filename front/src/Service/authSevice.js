@@ -12,12 +12,12 @@ export default class authService {
 		return this.service.get('/loggedin').then((data) => data.data);
 	};
 
-	login = () => {
-		return this.service.post(`/login`).then((data) => data.data);
+	login = (username,password) => {
+		return this.service.post(`/login`,{username,password}).then((data) => data.data);
 	};
 	
-	signup = (infoUser) => {
-		return this.service.post(`/signup`,{...infoUser}).then((data) => data.data);
+	signup = (username,password) => {
+		return this.service.post(`/signup`,{username,password}).then((data) => data.data);
 	};
 	
 }
