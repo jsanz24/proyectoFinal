@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from "react-router-dom"
+import {Link, Redirect} from "react-router-dom"
 import authService from "../Service/authSevice"
 
 export default class Login extends Component {
@@ -33,6 +33,7 @@ export default class Login extends Component {
     render() {
         return (
             <div>
+                {this.state.redirect ? <Redirect to="/home" /> : ""}
                 <form onSubmit={this.handleFormSubmit}>
                     <input type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)}></input>
                     <input type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
