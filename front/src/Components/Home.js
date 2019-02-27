@@ -6,11 +6,12 @@ export default class Home extends Component {
   render() {
     return (
       <div>
+          hola
+        {/* <Link></Link>
         <Link></Link>
         <Link></Link>
         <Link></Link>
-        <Link></Link>
-        <Link></Link>
+        <Link></Link> */}
       </div>
     )
   }
