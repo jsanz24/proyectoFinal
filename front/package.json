@@ -4,10 +4,16 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "engine.io": "^3.3.2",
+    "engine.io-client": "^3.3.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.5",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
+    "socket.io-react": "^1.2.0",
+    "uws": "^10.148.1"
   },
   "scripts": {
     "start": "react-scripts start",
