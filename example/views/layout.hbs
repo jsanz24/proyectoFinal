@@ -29,22 +29,7 @@
   </div>
   {{{body}}}
   <script>
-    // Service worker
-    /*if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('../javascripts/sw.js').then(function(registration) {
-            }, function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }*/
-    // Entry point after animation
-        setTimeout(main, 500);
-    /*let intro = document.getElementById("intro");
-    function onAnimationEnd() {
-        intro.removeEventListener("animationend", onAnimationEnd);
-    }
-    intro.addEventListener("animationend", onAnimationEnd, false);*/
+    main();
   </script>
 </body>
 </html>

@@ -146,7 +146,11 @@ function setToInitialState() {
     }
   }
   
-  acl.addEventListener('reading', onreading);
+  acl.addEventListener('reading', onreading);  gauge = new Gauge(target).setOptions(opts);
+  gauge.setTextField(document.getElementById("preview"));
+  gauge.maxValue = 50; // set max gauge value
+  gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+  gauge.animationSpeed = 32; // set animation speed (32 is default value
 }
 
 function onresult() {
