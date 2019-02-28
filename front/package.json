@@ -8,6 +8,7 @@
     "engine.io": "^3.3.2",
     "engine.io-client": "^3.3.2",
     "react": "^16.8.3",
+    "react-accelerometer": "^1.0.1",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",

@@ -29,13 +29,14 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
-let people = 0;
+let people = [];
 const clicks = [];
 
 io.on('connection', (client) => {
-  people += 1;
+  people.push(client.id);
+  console.log(people)
+
   client.on('clicked', () => {
-    console.log(people)
     let exists = false;
     clicks.forEach(elem => {
       if(elem.id == client.id) exists = true;
@@ -45,16 +46,16 @@ io.on('connection', (client) => {
     if(clicks.length == people) client.emit('clicked', clicks);
     else client.emit('clicked', false);
 
-    client.on('disconnect', function () {
-      clicks.forEach((elem,idx) => {
-        if(elem.id == client.id) clicks.splice(idx,1);
-      })
-      people-=1;
-    });
+  });
+  client.on('disconnect', function () {
+    people.splice(people.indexOf(client.id,1));
+    clicks.forEach((elem,idx) => {
+      if(elem.id == client.id) clicks.splice(idx,1);
+    })
   });
 });
 
-io.listen(5001);
+//io.listen(5001);
 
 app.use(cors({
   credentials: true,

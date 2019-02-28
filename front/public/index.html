@@ -27,6 +27,25 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+      alpha:<span id="alpha"></span><br>
+      beta:<span id="beta"></span><br>
+      gamma:<span id="gamma"></span><br>
+      <script>
+        //get orientation info
+        if (window.DeviceOrientationEvent)
+        {
+            window.addEventListener("deviceorientation", function ()
+            {
+                processGyro(event.alpha, event.beta, event.gamma);
+            }, true);
+        }
+        function processGyro(alpha,beta,gamma)
+        {
+          document.getElementById("alpha").innerHTML=alpha;
+          document.getElementById("beta").innerHTML=beta;
+          document.getElementById("gamma").innerHTML =gamma;
+        }
+      </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

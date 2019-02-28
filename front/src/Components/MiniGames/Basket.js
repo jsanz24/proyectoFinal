@@ -3,27 +3,26 @@ import io from 'socket.io-client';
 
 const socket = io(`${process.env.REACT_APP_SOCKET_PORT}`);
 
+function calculate(cb) {
+    socket.emit('clicked');
+    socket.on('clicked', data => cb(null,data));
+}
 export default class Basket extends Component {
-    
     constructor(props) {
         super(props);
-        this.state = {}
-        
+        this.state = { username: '', password: '', redirect: false };
     }
-    handleClick(){
-        socket.emit('clicked');
-        socket.on('clicked',(data)=>{
+    handleClick(e){
+        calculate((err, data) => {
             console.log(data)
+            if(data) this.setState({...this.state, a: true });
         });
-        
-        
     }
     render() {
-        console.log(this.state)
-        console.log(`${process.env.REACT_APP_API_URL}`)
         return (
             <div>
-                <button onClick={this.handleClick}>click me</button>
+                <button onClick={(e) =>this.handleClick(e)}>click me</button>
+                {this.state.a?<p>Hola</p>:<p>Adios</p>}
             </div>
         )
     }
