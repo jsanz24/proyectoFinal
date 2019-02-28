@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 export default class Basket extends Component {
     constructor(props) {
         super(props);
-        this.socket = io.connect("http://localhost:3000");
+        this.socket = io.connect("http://localhost:3000/basket");
         this.state = {
             name:"jesus",
         };
