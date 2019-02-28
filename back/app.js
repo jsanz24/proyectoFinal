@@ -41,7 +41,7 @@ io.on('connection', (client) => {
     client.emit('clicked', new Date().getTime());
   });
 });
-io.listen(process.env.SOCKET_PORT);
+io.listen("5001");
 
 app.use(cors({
   credentials: true,
