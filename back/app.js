@@ -8,7 +8,7 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+const io           = require('socket.io')();
 const cors         = require('cors');
 const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
@@ -16,7 +16,7 @@ const flash      = require("connect-flash");
     
 
 mongoose
-  .connect('mongodb://localhost/back', {useNewUrlParser: true})
+  .connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -29,9 +29,23 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+io.on('connection', (client) => {
+  client.on('subscribeToTimer', (interval) => {
+    console.log(client.id)
+    console.log('client is subscribing to timer with interval ', interval);
+    client.emit('timer', new Date());
+  });
+  client.on('clicked', () => {
+    console.log(client.id)
+    console.log('client is subscribing to timer with interval ');
+    client.emit('clicked', new Date().getTime());
+  });
+});
+io.listen(process.env.SOCKET_PORT);
+
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: [process.env.CORS_PORT]
 }));
 
 // Middleware Setup
@@ -87,5 +101,9 @@ app.use('/', index);
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
       
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+ });
 
 module.exports = app;
