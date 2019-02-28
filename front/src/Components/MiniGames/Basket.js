@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
 
-const socket = io("http://localhost:5001");
+const socket = io(process.env.SOCKET_PORT);
 function subscribeToTimer(cb) {
     socket.emit('subscribeToTimer', 1000);
     socket.on('timer', timestamp => cb(null, timestamp));
