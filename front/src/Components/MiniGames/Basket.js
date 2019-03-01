@@ -10,13 +10,6 @@ export default class Basket extends Component {
     
     constructor(props) {
         super(props);
-<<<<<<< HEAD
-        this.socket = io.connect("http://localhost:3000/basket");
-        this.state = {
-            name:"jesus",
-        };
-=======
->>>>>>> 3dc9ef76b2eea4636c0e516be2ea71751352d7fb
         
         this.state = {}
         subscribeToTimer((err, timestamp) => {
