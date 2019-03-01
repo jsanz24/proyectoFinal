@@ -1,51 +1,28 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
 
-const socket = io(process.env.SOCKET_PORT);
-function subscribeToTimer(cb) {
-    socket.emit('subscribeToTimer', 1000);
-    socket.on('timer', timestamp => cb(null, timestamp));
-  }
+const socket = io.connect();
+
+function calculate(cb) {
+    socket.emit('clicked');
+    socket.on('clicked', data => cb(null,data));
+}
 export default class Basket extends Component {
-    
     constructor(props) {
         super(props);
-        
-        this.state = {}
-        subscribeToTimer((err, timestamp) => {
-            console.log("puto")
-            this.setState({ 
-                timestamp 
-            })
-        });
-            // socket.on('chat message1', function(msg){
-            //     console.log(socket.id)
-            //     io.emit('chat message1', msg);
-            // });
-        
+        this.state = { username: '', password: '', redirect: false };
     }
-    handleClick(){
-        socket.emit('clicked');
-        socket.on('clicked');
-        
+    handleClick(e){
+        calculate((err, data) => {
+            console.log(data)
+            if(data) this.setState({...this.state, a: true });
+        });
     }
     render() {
-        console.log(this.state)
         return (
             <div>
-                {/* <meta httpEquiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-02-27" content="AjL+UlBzLjx+0FPXrML6IMA/Ax9GsO/7rUvV/aaKkh3KknUSwDBgymn0d3NhGeRMNS7FlYD73ernqvZNoqzNMw4AAABWeyJvcmlnaW4iOiJodHRwczovL2ludGVsLmdpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUxOTczOTAwNX0="></meta>
-                <script src="./main.js"></script>
-                <script src="./gauge.js"></script>
-                <link href="./styles.css"></link>
-                <div id="game_text" className="shakeToStart" style={{display:"none"}}>
-                    Shake device and find out!
-                </div>
-                <canvas id="gauge"></canvas>
-                <div id="measurement" className="shakeToStart">
-                    <div id="preview">0</div>
-                    <div>km/h</div>
-                </div> */}
-                <button onClick={this.handleClick}>click me</button>
+                <button onClick={(e) =>this.handleClick(e)}>click me</button>
+                {this.state.a?<p>Hola</p>:<p>Adios</p>}
             </div>
         )
     }

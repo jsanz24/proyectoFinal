@@ -29,19 +29,33 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+let people = [];
+const clicks = [];
+
 io.on('connection', (client) => {
-  client.on('subscribeToTimer', (interval) => {
-    console.log(client.id)
-    console.log('client is subscribing to timer with interval ', interval);
-    client.emit('timer', new Date());
-  });
+  people.push(client.id);
+  console.log(people)
+
   client.on('clicked', () => {
-    console.log(client.id)
-    console.log('client is subscribing to timer with interval ');
-    client.emit('clicked', new Date().getTime());
+    let exists = false;
+    clicks.forEach(elem => {
+      if(elem.id == client.id) exists = true;
+    })
+    if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
+
+    if(clicks.length == people) client.emit('clicked', clicks);
+    else client.emit('clicked', false);
+
+  });
+  client.on('disconnect', function () {
+    people.splice(people.indexOf(client.id,1));
+    clicks.forEach((elem,idx) => {
+      if(elem.id == client.id) clicks.splice(idx,1);
+    })
   });
 });
-io.listen("5001");
+
+//io.listen(5001);
 
 app.use(cors({
   credentials: true,
