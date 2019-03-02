@@ -13,7 +13,8 @@ const session      = require("express-session");
 const MongoStore   = require('connect-mongo')(session);
 const flash        = require("connect-flash");
 const app          = express();
-const server       = require('https').createServer(app);
+const http         = require('http');
+let server         = http.createServer(app);
 const io           = require('socket.io')(server);
 
 mongoose
@@ -42,8 +43,8 @@ io.on('connection', (client) => {
       if(elem.id == client.id) exists = true;
     })
     if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
-
-    if(clicks.length == people.length) client.emit('clicked', clicks);
+    console.log(clicks)
+    if(clicks.length == people) client.emit('clicked', clicks);
     else client.emit('clicked', false);
 
   });
@@ -54,6 +55,8 @@ io.on('connection', (client) => {
     })
   });
 });
+
+
 
 app.use(cors({
   credentials: true,
@@ -118,7 +121,7 @@ app.use((req, res, next) => {
   res.sendFile(__dirname + "/public/index.html");
  });
 
-server.listen(process.env.PORT, () => {
-  console.log(`Listening on ${process.env.PORT}`);
-});
-module.exports = app;
+
+
+module.exports =  {app,server};
+
