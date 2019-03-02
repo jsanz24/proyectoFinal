@@ -8,12 +8,14 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-const io           = require('socket.io')();
 const cors         = require('cors');
-const session    = require("express-session");
-const MongoStore = require('connect-mongo')(session);
-const flash      = require("connect-flash");
-    
+const session      = require("express-session");
+const MongoStore   = require('connect-mongo')(session);
+const flash        = require("connect-flash");
+const app          = express();
+const http         = require('http');
+let server         = http.createServer(app);
+const io           = require('socket.io')(server);
 
 mongoose
   .connect(`${process.env.MONGO_URL}`, {useNewUrlParser: true})
@@ -27,7 +29,6 @@ mongoose
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
-const app = express();
 
 let people = [];
 const clicks = [];
@@ -42,9 +43,9 @@ io.on('connection', (client) => {
       if(elem.id == client.id) exists = true;
     })
     if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
-
-    if(clicks.length == people) client.emit('clicked', clicks);
-    else client.emit('clicked', false);
+    console.log(clicks)
+    if(clicks.length == people.length) io.emit('clicked', clicks);
+    else client.emit('clicked', clicks);
 
   });
   client.on('disconnect', function () {
@@ -55,7 +56,7 @@ io.on('connection', (client) => {
   });
 });
 
-//io.listen(5001);
+
 
 app.use(cors({
   credentials: true,
@@ -120,4 +121,7 @@ app.use((req, res, next) => {
   res.sendFile(__dirname + "/public/index.html");
  });
 
-module.exports = app;
+
+
+module.exports =  {app,server};
+
