@@ -18,6 +18,6 @@ export default class Canvas extends React.Component {
   render() {
       return (
           <canvas ref="canvas" width={window.innerWidth} height={window.innerHeight}/>
-       );
+      );
   }
 }
