@@ -6,11 +6,13 @@ import Signup from './Components/Signup';
 import Home from './Components/Home';
 import Feria from './Components/MiniGames/Feria';
 import Basket from './Components/MiniGames/Basket';
+import Canvas from './Components/canvasComponent';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <Canvas></Canvas>
         <Switch>
           <Route exact path="/"  component={Login}></Route>
           <Route exact path="/signup"  component={Signup}></Route>
