@@ -45,7 +45,7 @@ io.on('connection', (client) => {
     if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
     console.log(clicks)
     if(clicks.length == people.length) io.emit('clicked', clicks);
-    else client.emit('clicked', false);
+    else client.emit('clicked', clicks);
 
   });
   client.on('disconnect', function () {
