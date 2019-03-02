@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
 
-const socket = io.connect();
+const socket = io(`${process.env.REACT_APP_API_URL}`);
 
 function calculate(cb) {
     socket.emit('clicked');
