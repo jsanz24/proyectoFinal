@@ -30,28 +30,51 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 
-let people = [];
+const people = [];
 const clicks = [];
+const move = [];
 
 io.on('connection', (client) => {
-  people.push(client.id);
-  console.log(people)
-
   client.on('clicked', () => {
     let exists = false;
     clicks.forEach(elem => {
       if(elem.id == client.id) exists = true;
     })
     if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
-    console.log(clicks)
-    if(clicks.length == people.length) io.emit('clicked', clicks);
+    if(clicks.length == people.length) {
+      io.emit('clicked', clicks);
+    }
     else client.emit('clicked', clicks);
-
   });
+  
+  client.on("move",(obj)=>{
+    if(people.indexOf(client.id) == -1) people.push(client.id);
+    let exists = false;
+    move.forEach(elem => {
+      if(elem.id == client.id){
+        exists = true;
+        if(elem.score < obj.speedX + obj.speedY + obj.speedZ) elem.score = obj.speedX + obj.speedY + obj.speedZ
+      } 
+    })
+    if(!exists && (obj.speedX + obj.speedY + obj.speedZ) > 35) move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
+    move.sort((a,b) => {
+      if(a.score > b.score) return -1
+      if(a.score < b.score) return 1
+    })
+    if(move.length == people.length){
+      client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+      io.emit('moveAll', {finish:true, move});
+    } 
+    else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+  })
+  
   client.on('disconnect', function () {
     people.splice(people.indexOf(client.id,1));
     clicks.forEach((elem,idx) => {
       if(elem.id == client.id) clicks.splice(idx,1);
+    })
+    move.forEach((elem,idx) => {
+      if(elem.id == client.id) move.splice(idx,1);
     })
   });
 });
