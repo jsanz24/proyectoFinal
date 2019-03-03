@@ -43,10 +43,19 @@ export default class Feria extends Component {
       let className = "cuadrado "
       let points = 120;
       if (points >= 100){
-        className += "fairAnimation"
+        className += "fairAnimation "
       } 
       return className
   }
+
+  bellResizing(){
+    let className = "bell "
+    let points = 120;
+    if (points >= 100){
+      className += "bellAnimation "
+    } 
+    return className
+}
 
   test() {
     if (window.DeviceOrientationEvent) {
@@ -127,7 +136,8 @@ export default class Feria extends Component {
         <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
         
         <div style={{position: "relative"}}>
-        <img  className="feria" src="../../../img/juego-martillo.png" />
+        <img  className="fair" src="../../../img/juego-martillo.png" />
+        <img  className={this.bellResizing()} src="../../../img/campana.png" />
         <img  className={this.movement()} src="../../../img/cuadrado.png" />
         </div>
       </div>

@@ -9,26 +9,49 @@ html, body{
   margin: 0 auto;
   z-index: 1;
   position: absolute;
-  margin-bottom: 10%;
-  bottom: 0%;
-  left: 47.8%;
+  bottom: 12.5%;
+  left: 48.3%;
+  width: 1.2vw;
+}
+
+.bell {
+  display: flex;
+  margin: 0 auto;
+  z-index: 2;
+  position: absolute;
+  left: 44.3%;
+  bottom: 63%;
+  width: 9vw;
 }
 
 .fairAnimation{
   animation-name: infinite-spinning;
   animation-duration: 2s;
-  animation-iteration-count: infinite;
   }
 
 @keyframes infinite-spinning {
-  from {
-    bottom: 0;
-  }
-  to {
-    bottom: 430px;
-  }
+  0% { bottom: 12.5%; }
+  60% { bottom: 40vw; }
+  60.1% {bottom: 39vw}
+  100% {bottom: 12.5%}
 }
 
-.feria{
+.bellAnimation {
+  animation-name: bell-resizing;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  }
+
+@keyframes bell-resizing {
+  0% {height: 9vw; width: 9vw; left: 44.3%}
+  90% {height: 9vw; width: 9vw; left: 44.3%}
+  93% {height: 13vw; width: 13vw; left: 43%}
+  94% {height: 9vw; width: 9vw; left: 44.3%}
+  97% {height: 13vw; width: 13vw; left: 43%}
+  100% {height: 9vw; width: 9vw; left: 44.3%}
+}
+
+.fair{
   z-index: -1;
+  width: 50vw;
 }
