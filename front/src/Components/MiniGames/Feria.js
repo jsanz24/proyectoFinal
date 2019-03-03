@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import "./Feria.css"
 
 // import ReactAccelerometer from 'react-accelerometer'
 
@@ -38,6 +39,15 @@ export default class Feria extends Component {
     this.test();
   }
 
+  movement(){
+      let className = "cuadrado "
+      let points = 120;
+      if (points >= 100){
+        className += "fairAnimation"
+      } 
+      return className
+  }
+
   test() {
     if (window.DeviceOrientationEvent) {
 		
@@ -52,8 +62,6 @@ export default class Feria extends Component {
         
       }, true);
 
-      
-      
       
       
     } else {
@@ -117,6 +125,11 @@ export default class Feria extends Component {
         <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
         <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
         <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
+        
+        <div style={{position: "relative"}}>
+        <img  className="feria" src="../../../img/juego-martillo.png" />
+        <img  className={this.movement()} src="../../../img/cuadrado.png" />
+        </div>
       </div>
     )
   }
