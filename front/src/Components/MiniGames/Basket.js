@@ -48,6 +48,7 @@ export default class Basket extends Component {
                         console.log(data)
                     });
                     socket.on('moveAll', data => {
+                        console.log(data)
                         if(that.state.speedX == 0){
                             that.setState({score: data.move})
                         }
