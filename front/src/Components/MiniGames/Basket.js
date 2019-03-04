@@ -125,6 +125,8 @@ export default class Basket extends Component {
                         <img alt="" className={this.state.movement} src="../../../img/cuadrado.png" />
                     </div>
                 </div>}
+                <div id="winner">
+                </div>
             </div>
         )
     }

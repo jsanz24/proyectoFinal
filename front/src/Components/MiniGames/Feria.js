@@ -1,131 +1,110 @@
 import React, { Component } from 'react'
+import io from 'socket.io-client';
 import "./Feria.css"
 
-// import ReactAccelerometer from 'react-accelerometer'
+const socket = io(`${process.env.REACT_APP_API_URL}`);
 
-export default class Feria extends Component {
-  /*
-
-  var lastTimestamp;
-  var speedX = 0, speedY = 0, speedZ = 0;
-  window.addEventListener('devicemotion', function(event) {
-    var currentTime = new Date().getTime();
-    if (lastTimestamp === undefined) {
-      lastTimestamp = new Date().getTime();
-      return; //ignore first call, we need a reference time
-    }
-    //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
-    speedX += event.acceleration.x / 1000 * ((currentTime - lastTimestamp)/1000)/3600;
-    //... same for Y and Z
-    lastTimestamp = currentTime;
-  }, false);
-  
-  */
-  constructor() {
-    super();
-    this.state = {
-      x: 0,
-      y: 0,
-      rotation: 0, 
-      x2: 0, 
-      y2: 0, 
-      z2: 0, 
-      lastTimestamp: undefined, 
-      speedX: 0, 
-      speedY: 0, 
-      speedZ: 0
-    }
-
-    this.test();
-  }
-
-  movement(){
-      let className = "cuadrado "
-      let points = 50;
-      if (points >= 100){
-        className += "topHit "
-      } 
-      if (points >= 80 && points <= 99){
-        className += "power80Hit"
-      }
-      if (points >= 60 && points <= 79){
-        className += "power60Hit"
-      }
-      if (points >= 40 && points <= 59){
-        className += "power40Hit"
-      }
-      return className
-  }
-
-  bellResizing(){
-    let className = "bell "
-    let points = 81;
-    if (points >= 100){
-      className += "bellAnimation "
-    } 
-    return className
+function calculate(cb) {
+    socket.emit('clicked');
+    socket.on('clicked', data => cb(null,data));
 }
 
-  test() {
-    if (window.DeviceOrientationEvent) {
-		
-      window.addEventListener("deviceorientation", (event) =>
-      {
-        
-        var x = Math.round(event.gamma);
-        var y = Math.round(event.beta);
-        var rotation = Math.round(event.alpha);
 
-        this.setState({x, y, rotation})
-        
-      }, true);
-
-      
-      
-    } else {
-    alert("Sorry, your browser doesn't support Device Orientation");
+export default class Basket extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = { 
+            speedX: 0, 
+            speedY: 0, 
+            speedZ: 0,
+            score: [],
+            movement: "cuadrado ",
+            bellResizing: "bell ", 
+            score2: 0
+        };
+        this.test();
     }
 
-    if(window.DeviceMotionEvent){
-      window.addEventListener("devicemotion", event => {
-        // PRUEBA 1 (aparentemente fail)
-        console.log("Accelerometer: "
-          + event.accelerationIncludingGravity.x + ", "
-          + event.accelerationIncludingGravity.y + ", "
-          + event.accelerationIncludingGravity.z
-        );
-        var x2 = event.accelerationIncludingGravity.x;
-        var y2 = event.accelerationIncludingGravity.y;
-        var z2 = event.accelerationIncludingGravity.z;
-
-        this.setState({x2, y2, z2})
+    calcMove(speedX,speedY,speedZ){
+        socket.emit("move", {speedX,speedY,speedZ})
+        socket.on('move', data => {
+            this.movement(data)
+        });
+        socket.on('moveAll', data => {
+            console.log(data)
+            if(this.state.speedX == 0){
+                this.setState({score: data.move})
+            }
+        });
         
-        // PRUEBA 2 (calculando velocidad)
-        var currentTime = new Date().getTime();
-        if (this.state.lastTimestamp === undefined) {
-          this.setState({lastTimestamp: new Date().getTime()})
-          return; //ignore first call, we need a reference time
+    }
+
+    movement(data){
+        let className = "cuadrado "
+        let points = Math.floor(data.score);
+        if (points >= 100){
+            className += "topHit "
+            this.bellResizing()
+        } 
+        else if (points >= 80 && points <= 99){
+            className += "power80Hit "
         }
-        //  m/s² / 1000 * (miliseconds - miliseconds)/1000 /3600 => km/h (if I didn't made a mistake)
-        let speedX = this.state.speedX;
-        let speedY = this.state.speedY;
-        let speedZ = this.state.speedZ;
-
-        if(speedX < event.acceleration.x) speedX = event.acceleration.x;
-        if(speedY < event.acceleration.y) speedY = event.acceleration.y;
-        if(speedZ < event.acceleration.z) speedZ = event.acceleration.z;
-
-        //... same for Y and Z
-        let lastTimestamp = currentTime;
-
-        this.setState({lastTimestamp, speedX, speedY, speedZ})
-        
-      }, false);
-    }else{
-      console.log("DeviceMotionEvent is not supported");
+        else if (points >= 60 && points <= 79){
+            className += "power60Hit "
+        }
+        else if (points >= 40 && points <= 59){
+            className += "power40Hit "
+        }
+        this.setState({ ...this.state, movement:className, score2: data})
     }
-  }
 
+    bellResizing(){
+        let className = "bell "
+        let points = 120;
+        if (points >= 100){
+            className += "bellAnimation "
+        } 
+        this.setState({ ...this.state, bellResizing:className})
+    }
+    test(){
+        console.log(window.DeviceMotionEvent)
+        if(window.DeviceMotionEvent){
+            window.addEventListener("devicemotion", event => {
+                
+                let speedX = this.state.speedX;
+                let speedY = this.state.speedY;
+                let speedZ = this.state.speedZ;
+                
+                if(speedX < event.acceleration.x && event.acceleration.x){
+                    speedX = event.acceleration.x;
+                    this.setState({ speedX, speedY, speedZ})
+                    if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
+                } 
+                if(speedY < event.acceleration.y && event.acceleration.y){
+                    speedY = event.acceleration.y;
+                    this.setState({ speedX, speedY, speedZ})
+                    if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
+                } 
+                if(speedZ < event.acceleration.z && event.acceleration.z){
+                    speedZ = event.acceleration.z;
+                    this.setState({ speedX, speedY, speedZ})
+                    if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
+                } 
+                
+            }, false);
+        }
+        else{
+            console.log("correcto")
+        }
+    }
+    
+    handleClick(e){
+        calculate((err, data) => {
+            console.log(data)
+            if(data) this.setState({...this.state, a: true });
+        });
+    }
 
   render() {
     console.log(this.state);
@@ -145,9 +124,16 @@ export default class Feria extends Component {
         <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p> */}
         
         <div style={{position: "relative"}}>
-        <img  className="fair" src="../../../img/juego-martillo.png" />
-        <img  className={this.bellResizing()} src="../../../img/campana.png" />
-        <img  className={this.movement()} src="../../../img/cuadrado.png" />
+          <div className="objects">
+            <img alt="" className="fair" src="../../../img/juego-martillo.png" />
+            <img alt="" className={this.state.bellResizing} src="../../../img/campana.png" />
+            <img alt="" className={this.state.movement} src="../../../img/cuadrado.png" />
+          </div>
+          <div className="background">
+        {/* <img  className="fairBackground" src="../../../img/fondoFair.png" /> */}
+
+          </div>
+        
         </div>
       </div>
     )
