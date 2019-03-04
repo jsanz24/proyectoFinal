@@ -45,7 +45,7 @@ io.on('connection', (client) => {
     if(clicks.length == people.length) {
       io.emit('clicked', clicks);
     }
-    else client.emit('clicked', clicks);
+    else client.emit('clicked', false);
   });
   
   client.on("move",(obj)=>{
