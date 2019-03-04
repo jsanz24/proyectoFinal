@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
+import "./Feria.css"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
@@ -7,6 +8,7 @@ function calculate(cb) {
     socket.emit('clicked');
     socket.on('clicked', data => cb(null,data));
 }
+
 
 export default class Basket extends Component {
     
@@ -16,9 +18,44 @@ export default class Basket extends Component {
             speedX: 0, 
             speedY: 0, 
             speedZ: 0,
-            score: []
+            score: [],
+            movement: "cuadrado ",
+            bellResizing: "bell "
         };
         this.test();
+    }
+
+    calcMove(speedX,speedY,speedZ){
+        socket.emit("move", {speedX,speedY,speedZ})
+        socket.on('move', data => {
+            this.movement(data)
+            this.bellResizing(data)
+        }).bind(this);
+        socket.on('moveAll', data => {
+            console.log(data)
+            if(this.state.speedX == 0){
+                this.setState({score: data.move})
+            }
+        }).bind(this);
+        
+    }
+
+    movement(){
+        let className = this.state.movement
+        let points = 120;
+        if (points >= 100){
+            className += "fairAnimation "
+        } 
+        this.setState({ ...this.state, movement:className})
+    }
+
+    bellResizing(){
+        let className = this.state.bellResizing
+        let points = 120;
+        if (points >= 100){
+            className += "bellAnimation "
+        } 
+        this.setState({ ...this.state, bellResizing:className})
     }
     test(){
         console.log(window.DeviceMotionEvent)
@@ -29,33 +66,23 @@ export default class Basket extends Component {
                 let speedY = this.state.speedY;
                 let speedZ = this.state.speedZ;
                 
-                if(speedX < event.acceleration.x){
+                if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
-                    calcMove(this)
+                    this.setState({ speedX, speedY, speedZ})
+                    if(speedX > 20) this.calcMove()
                 } 
-                if(speedY < event.acceleration.y){
+                if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
-                    calcMove(this)
+                    this.setState({ speedX, speedY, speedZ})
+                    if(speedY > 20) this.calcMove()
                 } 
-                if(speedZ < event.acceleration.z){
+                if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
-                    calcMove(this)
+                    this.setState({ speedX, speedY, speedZ})
+                    if(speedZ > 20) this.calcMove()
                 } 
                 
-                function calcMove(that){
-                    socket.emit("move", {speedX,speedY,speedZ})
-                    socket.on('move', data => {
-                        console.log(data)
-                    });
-                    socket.on('moveAll', data => {
-                        console.log(data)
-                        if(that.state.speedX == 0){
-                            that.setState({score: data.move})
-                        }
-                    });
-                }
                 
-                this.setState({ speedX, speedY, speedZ})
                 
             }, false);
         }
@@ -76,11 +103,17 @@ export default class Basket extends Component {
             <div>
                 <button onClick={(e) =>this.handleClick(e)}>click me</button>
                 {this.state.a?<p>Hola</p>:<p>Adios</p>}
+                <p>{this.state.speedX}</p>
                 {this.state.speedX == 0?this.state.score.map(elem => <div>{elem.id}  {elem.score}</div>):
                 <div>
                     <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
                     <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
                     <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
+                    <div style={{position: "relative"}}>
+                        <img alt="" className="fair" src="../../../img/juego-martillo.png" />
+                        <img alt="" className={this.state.bellResizing} src="../../../img/campana.png" />
+                        <img alt="" className={this.state.movement} src="../../../img/cuadrado.png" />
+                    </div>
                 </div>}
             </div>
         )

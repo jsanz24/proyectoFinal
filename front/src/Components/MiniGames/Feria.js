@@ -123,7 +123,7 @@ export default class Feria extends Component {
 
     return (
       <div>
-        <p>X: {this.state.x}</p>
+        {/* <p>X: {this.state.x}</p>
         <p>Y: {this.state.y}</p>
         <p>Rotation: {this.state.rotation}</p>
 
@@ -133,7 +133,7 @@ export default class Feria extends Component {
 
         <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
         <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
-        <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
+        <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p> */}
         
         <div style={{position: "relative"}}>
         <img  className="fair" src="../../../img/juego-martillo.png" />
