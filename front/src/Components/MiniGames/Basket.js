@@ -9,6 +9,13 @@ function calculate(cb) {
     socket.on('clicked', data => cb(null,data));
 }
 
+function calcMove(speedX,speedY,speedZ,fn){
+    socket.emit("move", {speedX,speedY,speedZ})
+    socket.on('move', data => {
+        console.log(data)
+        fn(data)
+    });
+}
 
 export default class Basket extends Component {
     
@@ -26,18 +33,12 @@ export default class Basket extends Component {
         this.test();
     }
 
-    calcMove(speedX,speedY,speedZ){
-        socket.emit("move", {speedX,speedY,speedZ})
-        socket.on('move', data => {
-            console.log(data)
-            if(data.finish){
-                console.log(data.move)
-                if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
-            }
-            else this.movement(data)
-        });
+    showPC(data){
+        if(data.finish){
+            console.log(data.move)
+            if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
+        }
     }
-
     movement(data){
         let className = "cuadrado "
         let points = Math.floor(data.score);
@@ -76,17 +77,17 @@ export default class Basket extends Component {
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
+                    if(speedX > 20) calcMove(speedX,speedY,speedZ,this.showPC)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
+                    if(speedY > 20) calcMove(speedX,speedY,speedZ,this.showPC)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
+                    if(speedZ > 20) calcMove(speedX,speedY,speedZ,this.showPC)
                 } 
                 
             }, false);
