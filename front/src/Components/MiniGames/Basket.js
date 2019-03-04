@@ -28,7 +28,6 @@ export default class Basket extends Component {
         socket.emit("move", {speedX,speedY,speedZ})
     }
     showPC(data){
-        console.log(data)
         this.setState({...this.state, score: data.move})
     }
     movement(data){
@@ -95,9 +94,7 @@ export default class Basket extends Component {
     
     render() {
         socket.on('move', data => {
-            console.log(data)
             if(data.finish){
-                console.log(data.move)
                 this.showPC(data)
             }
             else this.movement(data)
@@ -106,7 +103,7 @@ export default class Basket extends Component {
             <div>
                 <button onClick={(e) =>this.handleClick(e)}>click me</button>
                 <p>{this.state.speedX}</p>
-                <p>Score: {JSON.stringify(this.state.score)}</p>
+                {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
                 {this.state.speedX === 0?this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>):
                 <div>
                     <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
