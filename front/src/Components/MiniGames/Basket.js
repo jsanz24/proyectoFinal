@@ -29,16 +29,13 @@ export default class Basket extends Component {
     calcMove(speedX,speedY,speedZ){
         socket.emit("move", {speedX,speedY,speedZ})
         socket.on('move', data => {
+            console.log(data)
             if(data.finish){
+                console.log(data.move)
                 if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
             }
             else this.movement(data)
         });
-        socket.on('moveAll', data => {
-            console.log(data)
-            
-        });
-        
     }
 
     movement(data){
@@ -69,7 +66,6 @@ export default class Basket extends Component {
         this.setState({ ...this.state, bellResizing:className})
     }
     test(){
-        console.log(window.DeviceMotionEvent)
         if(window.DeviceMotionEvent){
             window.addEventListener("devicemotion", event => {
                 
@@ -112,12 +108,12 @@ export default class Basket extends Component {
             <div>
                 <button onClick={(e) =>this.handleClick(e)}>click me</button>
                 <p>{this.state.speedX}</p>
+                <p>Score: {JSON.stringify(this.state.score)}</p>
                 {this.state.speedX == 0?this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>):
                 <div>
                     <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
                     <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
                     <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
-                    <p>Score: {JSON.stringify(this.state.score)}</p>
                     <p>Classes: {this.state.movement}</p>
                     <div style={{position: "relative"}}>
                         <img alt="" className="fair" src="../../../img/juego-martillo.png" />
