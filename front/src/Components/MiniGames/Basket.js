@@ -29,13 +29,14 @@ export default class Basket extends Component {
     calcMove(speedX,speedY,speedZ){
         socket.emit("move", {speedX,speedY,speedZ})
         socket.on('move', data => {
-            this.movement(data)
+            if(data.finish){
+                if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
+            }
+            else this.movement(data)
         });
         socket.on('moveAll', data => {
             console.log(data)
-            if(this.state.speedX == 0){
-                this.setState({score: data.move})
-            }
+            
         });
         
     }
@@ -78,17 +79,17 @@ export default class Basket extends Component {
                 
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 
@@ -110,14 +111,13 @@ export default class Basket extends Component {
         return (
             <div>
                 <button onClick={(e) =>this.handleClick(e)}>click me</button>
-                {this.state.a?<p>Hola</p>:<p>Adios</p>}
                 <p>{this.state.speedX}</p>
-                {this.state.speedX == 0?this.state.score.map(elem => <div>{elem.id}  {elem.score}</div>):
+                {this.state.speedX == 0?this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>):
                 <div>
                     <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
                     <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
                     <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
-                    <p>Score: {JSON.stringify(this.state.score2)}</p>
+                    <p>Score: {JSON.stringify(this.state.score)}</p>
                     <p>Classes: {this.state.movement}</p>
                     <div style={{position: "relative"}}>
                         <img alt="" className="fair" src="../../../img/juego-martillo.png" />
