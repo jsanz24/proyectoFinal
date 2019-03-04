@@ -9,11 +9,15 @@ function calculate(cb) {
     socket.on('clicked', data => cb(null,data));
 }
 
-function calcMove(speedX,speedY,speedZ,fn){
+function calcMove(speedX,speedY,speedZ,fn,fn2){
     socket.emit("move", {speedX,speedY,speedZ})
     socket.on('move', data => {
         console.log(data)
-        fn(data)
+        if(data.finish){
+            console.log(data.move)
+            fn(data)
+        }
+        else fn2(data)
     });
 }
 
@@ -34,10 +38,7 @@ export default class Basket extends Component {
     }
 
     showPC(data){
-        if(data.finish){
-            console.log(data.move)
-            if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
-        }
+        if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
     }
     movement(data){
         let className = "cuadrado "
@@ -77,17 +78,17 @@ export default class Basket extends Component {
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedX > 20) calcMove(speedX,speedY,speedZ,this.showPC)
+                    if(speedX > 20) calcMove(speedX,speedY,speedZ,this.showPC,this.movement)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedY > 20) calcMove(speedX,speedY,speedZ,this.showPC)
+                    if(speedY > 20) calcMove(speedX,speedY,speedZ,this.showPC,this.movement)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedZ > 20) calcMove(speedX,speedY,speedZ,this.showPC)
+                    if(speedZ > 20) calcMove(speedX,speedY,speedZ,this.showPC,this.movement)
                 } 
                 
             }, false);
