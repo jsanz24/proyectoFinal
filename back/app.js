@@ -57,14 +57,14 @@ io.on('connection', (client) => {
         if(elem.score < obj.speedX + obj.speedY + obj.speedZ) elem.score = obj.speedX + obj.speedY + obj.speedZ
       } 
     })
-    if(!exists && (obj.speedX + obj.speedY + obj.speedZ) > 35) move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
+    if(!exists && (obj.speedX + obj.speedY + obj.speedZ) > 40) move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
     move.sort((a,b) => {
       if(a.score > b.score) return -1
       if(a.score < b.score) return 1
     })
     if(move.length == people.length-1){
+      //io.emit('move', {finish:true, move:move});
       client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
-      io.emit('moveAll', {finish:true, move});
     } 
     else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
   })

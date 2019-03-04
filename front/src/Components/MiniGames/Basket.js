@@ -8,7 +8,7 @@ function calculate(cb) {
     socket.emit('clicked');
     socket.on('clicked', data => cb(null,data));
 }
-
+ 
 
 export default class Basket extends Component {
     
@@ -21,25 +21,23 @@ export default class Basket extends Component {
             score: [],
             movement: "cuadrado ",
             bellResizing: "bell ", 
-            score2: 0
         };
         this.test();
     }
-
     calcMove(speedX,speedY,speedZ){
         socket.emit("move", {speedX,speedY,speedZ})
         socket.on('move', data => {
-            this.movement(data)
-        });
-        socket.on('moveAll', data => {
             console.log(data)
-            if(this.state.speedX == 0){
-                this.setState({score: data.move})
+            if(data.finish){
+                console.log(data.move)
+                this.showPC(data)
             }
+            else this.movement(data)
         });
-        
     }
-
+    showPC(data){
+        if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
+    }
     movement(data){
         let className = "cuadrado "
         let points = Math.floor(data.score);
@@ -56,19 +54,15 @@ export default class Basket extends Component {
         else if (points >= 40 && points <= 59){
             className += "power40Hit "
         }
-        this.setState({ ...this.state, movement:className, score2: data})
+        this.setState({ ...this.state, movement:className})
     }
 
     bellResizing(){
         let className = "bell "
-        let points = 120;
-        if (points >= 100){
-            className += "bellAnimation "
-        } 
+        className += "bellAnimation "
         this.setState({ ...this.state, bellResizing:className})
     }
     test(){
-        console.log(window.DeviceMotionEvent)
         if(window.DeviceMotionEvent){
             window.addEventListener("devicemotion", event => {
                 
@@ -78,17 +72,17 @@ export default class Basket extends Component {
                 
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 
@@ -110,14 +104,13 @@ export default class Basket extends Component {
         return (
             <div>
                 <button onClick={(e) =>this.handleClick(e)}>click me</button>
-                {this.state.a?<p>Hola</p>:<p>Adios</p>}
                 <p>{this.state.speedX}</p>
-                {this.state.speedX == 0?this.state.score.map(elem => <div>{elem.id}  {elem.score}</div>):
+                <p>Score: {JSON.stringify(this.state.score)}</p>
+                {this.state.speedX == 0?this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>):
                 <div>
                     <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
                     <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
                     <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
-                    <p>Score: {JSON.stringify(this.state.score2)}</p>
                     <p>Classes: {this.state.movement}</p>
                     <div style={{position: "relative"}}>
                         <img alt="" className="fair" src="../../../img/juego-martillo.png" />
@@ -131,22 +124,3 @@ export default class Basket extends Component {
         )
     }
 }
-
-//<canvas ref="canvas" width={window.innerWidth} height={window.innerHeight}/>
-// function rect(props) {
-//     const {ctx, x, y, width, height} = props;
-//     ctx.fillRect(x, y, width, height);
-// }
-// componentDidMount() {
-    //     this.updateCanvas();
-    // }
-    
-    // updateCanvas() {
-        //     const ctx = this.refs.canvas.getContext('2d');
-        //     ctx.clearRect(0,0, 300, 300);
-    
-        //     rect({ctx, x: 100, y: 100, width: 50, height: 50});
-        //     rect({ctx, x: 160, y: 100, width: 50, height: 50});
-        //     rect({ctx, x: 100, y: 160, width: 50, height: 50});
-        //     rect({ctx, x: 160, y: 160, width: 50, height: 50});
-        // }
