@@ -1,0 +1,57 @@
+.backgroundBasket {
+  background-image: url('/img/basket/cancha.png');
+  background-size: cover;
+  background-position: center bottom;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: -5;
+}
+.objects {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.ball {
+  display: flex;
+  margin: 0 auto;
+  z-index: 1;
+  position: absolute;
+  top: 140vw;
+  left: 42vw;
+  height: 10vh;
+}
+
+.canasta {
+  display: flex;
+  margin: 0 auto;
+  z-index: -1;
+  position: absolute;
+  left: 41vw;
+  height: 6vh;
+  top: 32vw;
+}
+
+.canastaPoint {
+  display: flex;
+  margin: 0 auto;
+  z-index: -99;
+  position: absolute;
+  left: 41vw;
+  height: 6vh;
+  top: 32vw;
+}
+
+.ballNice{
+  animation-name: ballNice;
+  animation-duration: 3s;
+  }
+
+@keyframes ballNice {
+  0% { top: 140vw; }
+  40% {top: 10vw; height: 5vh}
+  55% {top: 40vw; height: 4vh; left: 43vw}
+  90% {top: 90vw; height: 4vh; left: 43vw}
+  100% {top: 90vw; height: 4vh; left: 43vw}
+}
