@@ -13,7 +13,7 @@ const session      = require("express-session");
 const MongoStore   = require('connect-mongo')(session);
 const flash        = require("connect-flash");
 const app          = express();
-const http         = require('http');
+const http         = require('https');
 let server         = http.createServer(app);
 const io           = require('socket.io')(server);
 
@@ -36,6 +36,8 @@ const move = [];
 
 io.on('connection', (client) => {
   people.push(client.id);
+  console.log(people)
+  console.log(client.id)
   client.on('clicked', () => {
     let exists = false;
     clicks.forEach(elem => {

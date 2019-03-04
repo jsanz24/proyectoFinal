@@ -4,10 +4,10 @@ import "./Feria.css"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
-function calculate(cb) {
-    socket.emit('clicked');
-    socket.on('clicked', data => cb(null,data));
-}
+// function calculate(cb) {
+//     socket.emit('clicked');
+//     socket.on('clicked', data => cb(null,data));
+// }
  
 
 export default class Basket extends Component {
@@ -85,12 +85,12 @@ export default class Basket extends Component {
         }
     }
     
-    handleClick(e){
-        calculate((err, data) => {
-            console.log(data)
-            if(data) this.setState({...this.state, a: true });
-        });
-    }
+    // handleClick(e){
+    //     calculate((err, data) => {
+    //         console.log(data)
+    //         if(data) this.setState({...this.state, a: true });
+    //     });
+    // }
     
     render() {
         socket.on('move', data => {
@@ -101,7 +101,7 @@ export default class Basket extends Component {
         });
         return (
             <div>
-                <button onClick={(e) =>this.handleClick(e)}>click me</button>
+                {/* <button onClick={(e) =>this.handleClick(e)}>click me</button> */}
                 <p>{this.state.speedX}</p>
                 {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
                 {this.state.speedX === 0?this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>):
