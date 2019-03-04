@@ -26,14 +26,6 @@ export default class Basket extends Component {
     }
     calcMove(speedX,speedY,speedZ){
         socket.emit("move", {speedX,speedY,speedZ})
-        socket.on('move', data => {
-            console.log(data)
-            if(data.finish){
-                console.log(data.move)
-                this.showPC(data)
-            }
-            else this.movement(data)
-        });
     }
     showPC(data){
         console.log(data)
@@ -57,7 +49,7 @@ export default class Basket extends Component {
         }
         this.setState({ ...this.state, movement:className})
     }
-
+    
     bellResizing(){
         let className = "bell "
         className += "bellAnimation "
@@ -102,6 +94,14 @@ export default class Basket extends Component {
     }
     
     render() {
+        socket.on('move', data => {
+            console.log(data)
+            if(data.finish){
+                console.log(data.move)
+                this.showPC(data)
+            }
+            else this.movement(data)
+        });
         return (
             <div>
                 <button onClick={(e) =>this.handleClick(e)}>click me</button>
