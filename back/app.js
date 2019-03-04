@@ -13,7 +13,7 @@ const session      = require("express-session");
 const MongoStore   = require('connect-mongo')(session);
 const flash        = require("connect-flash");
 const app          = express();
-const http         = require('https');
+const http         = require('http');
 let server         = http.createServer(app);
 const io           = require('socket.io')(server);
 
