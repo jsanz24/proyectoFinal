@@ -42,10 +42,10 @@ io.on('connection', (client) => {
       if(elem.id == client.id) exists = true;
     })
     if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
-    if(clicks.length == people.length) {
+    if(clicks.length === people.length) {
       io.emit('clicked', clicks);
     }
-    else client.emit('clicked', false);
+    else client.emit('clicked', people);
   });
   
   client.on("move",(obj)=>{
