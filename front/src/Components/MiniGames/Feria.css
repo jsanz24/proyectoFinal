@@ -31,8 +31,8 @@ html, body{
 
 @keyframes topHit {
   0% { bottom: 12.5%; }
-  60% { bottom: 40vw; }
-  60.1% {bottom: 39vw}
+  60% { bottom: 59.5vw; }
+  60.1% {bottom: 59vw}
   100% {bottom: 12.5%}
 }
 
@@ -43,8 +43,8 @@ html, body{
 
 @keyframes power80Hit {
   0% { bottom: 12.5%; }
-  60% { bottom: 33vw; }
-  60.1% {bottom: 32vw}
+  60% { bottom: 50vw; }
+  60.1% {bottom: 49vw}
   100% {bottom: 12.5%}
 }
 
@@ -55,8 +55,8 @@ html, body{
 
 @keyframes power60Hit {
   0% { bottom: 12.5%; }
-  60% { bottom: 27vw; }
-  60.1% {bottom: 26vw}
+  60% { bottom: 40vw; }
+  60.1% {bottom: 39vw}
   100% {bottom: 12.5%}
 }
 
@@ -67,8 +67,8 @@ html, body{
 
 @keyframes power40Hit {
   0% { bottom: 12.5%; }
-  60% { bottom: 22vw; }
-  60.1% {bottom: 21vw}
+  60% { bottom: 30vw; }
+  60.1% {bottom: 29vw}
   100% {bottom: 12.5%}
 }
 

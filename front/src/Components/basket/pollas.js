@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
-import "./Feria.css"
+import "./basket.css"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
@@ -10,7 +10,7 @@ function calculate(cb) {
 }
 
 
-export default class Basket extends Component {
+export default class Pollas extends Component {
     
     constructor(props) {
         super(props);
@@ -19,33 +19,31 @@ export default class Basket extends Component {
             speedY: 0, 
             speedZ: 0,
             score: [],
-            movement: "cuadrado ",
-            bellResizing: "bell ", 
-            score2: 0
+            movement: "ball ",
+            canastaPoint: "canasta ", 
         };
         this.test();
     }
-
     calcMove(speedX,speedY,speedZ){
         socket.emit("move", {speedX,speedY,speedZ})
         socket.on('move', data => {
-            this.movement(data)
-        });
-        socket.on('moveAll', data => {
             console.log(data)
-            if(this.state.speedX == 0){
-                this.setState({score: data.move})
+            if(data.finish){
+                console.log(data.move)
+                this.showPC(data)
             }
+            else this.movement(data)
         });
-        
     }
-
+    showPC(data){
+        if(this.state.speedX === 0) this.setState({...this.state, score: data.move})
+    }
     movement(data){
-        let className = "cuadrado "
+        let className = "ball "
         let points = Math.floor(data.score);
         if (points >= 100){
-            className += "topHit "
-            this.bellResizing()
+            className += "ballNice "
+            this.canastaPoint()
         } 
         else if (points >= 80 && points <= 99){
             className += "power80Hit "
@@ -56,19 +54,16 @@ export default class Basket extends Component {
         else if (points >= 40 && points <= 59){
             className += "power40Hit "
         }
-        this.setState({ ...this.state, movement:className, score2: data})
+        this.setState({ ...this.state, movement:className})
     }
 
-    bellResizing(){
-        let className = "bell "
-        let points = 120;
-        if (points >= 100){
-            className += "bellAnimation "
-        } 
-        this.setState({ ...this.state, bellResizing:className})
+    canastaPoint(){
+        let className = "canasta "
+        className -= "canasta "
+        className += "canastaPoint "
+        this.setState({ ...this.state, canastaPoint:className})
     }
     test(){
-        console.log(window.DeviceMotionEvent)
         if(window.DeviceMotionEvent){
             window.addEventListener("devicemotion", event => {
                 
@@ -78,17 +73,17 @@ export default class Basket extends Component {
                 
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
-                    this.setState({ speedX, speedY, speedZ})
+                    this.setState({...this.state, speedX, speedY, speedZ})
                     if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 
@@ -105,35 +100,20 @@ export default class Basket extends Component {
             if(data) this.setState({...this.state, a: true });
         });
     }
-
-  render() {
-    console.log(this.state);
-
-    return (
-      <div>
-        {/* <p>X: {this.state.x}</p>
-        <p>Y: {this.state.y}</p>
-        <p>Rotation: {this.state.rotation}</p>
-
-        <p>X2: {this.state.x2.toFixed(2)}</p>
-        <p>Y2: {this.state.y2.toFixed(2)}</p>
-        <p>Z2: {this.state.z2.toFixed(2)}</p>
-
-        <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
-        <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
-        <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p> */}
-        
-        <div style={{position: "relative"}}>
-          <div className="objects">
-            <img alt="" className="fair" src="/img/juego-martillo.png" />
-            <img alt="" className={this.state.bellResizing} src="/img/campana.png" />
-            <img alt="" className={this.state.movement} src="/img/cuadrado.png" />
-          </div>
-          <div className="background">
-          </div>
-        
-        </div>
-      </div>
-    )
-  }
+    
+    render() {
+        return (
+            <div>
+                    <div style={{position: "relative"}}>
+                        <div className="objects">
+                        <img alt="" className={this.state.canastaPoint} src="/img/basket/canasta.png" />
+                        <img alt="" className={this.state.movement} src="/img/basket/ball.png" />
+                        </div>
+                </div>
+                <div className="backgroundBasket"></div>
+                <div id="winner">
+                </div>
+            </div>
+        )
+    }
 }
