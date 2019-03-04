@@ -24,7 +24,7 @@ html, body{
   width: 9vw;
 }
 
-.fairAnimation{
+.topHit{
   animation-name: topHit;
   animation-duration: 2s;
   }
