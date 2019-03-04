@@ -35,6 +35,7 @@ const clicks = [];
 const move = [];
 
 io.on('connection', (client) => {
+  people.push(client.id);
   client.on('clicked', () => {
     let exists = false;
     clicks.forEach(elem => {
@@ -48,7 +49,7 @@ io.on('connection', (client) => {
   });
   
   client.on("move",(obj)=>{
-    if(people.indexOf(client.id) == -1) people.push(client.id);
+    //if(people.indexOf(client.id) == -1) people.push(client.id);
     let exists = false;
     move.forEach(elem => {
       if(elem.id == client.id){
@@ -61,9 +62,9 @@ io.on('connection', (client) => {
       if(a.score > b.score) return -1
       if(a.score < b.score) return 1
     })
-    if(move.length == people.length){
+    if(move.length == people.length-1){
+      //client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
       io.emit('moveAll', {finish:true, move});
-      client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
     } 
     else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
   })
