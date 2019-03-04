@@ -9,9 +9,9 @@ html, body{
   margin: 0 auto;
   z-index: 1;
   position: absolute;
-  bottom: 12.5%;
-  left: 48.3%;
-  width: 1.2vw;
+  bottom: 12.5vh;
+  left: 45.2vw;
+  width: 3vw;
 }
 
 .bell {
@@ -19,9 +19,9 @@ html, body{
   margin: 0 auto;
   z-index: 2;
   position: absolute;
-  left: 44.3%;
-  bottom: 63%;
-  width: 9vw;
+  left: 36.8vw;
+  bottom: 63vh;
+  height: 12vh;
 }
 
 .topHit{
@@ -89,6 +89,34 @@ html, body{
 
 .fair{
   z-index: -1;
-  width: 50vw;
+  position: relative;
+  height: 100vh;
+  max-width: 100vw;
+  object-fit: cover;
+}
 
+.fairBackground{
+  position: absolute;
+  z-index: -3;
+  display: flex;
+  /* bottom: 0.1vw;
+  left: 19vw; */
+  width: 100vw;
+  
+}
+
+.objects {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.background {
+  background-image: url('/img/fondoFair.png');
+  background-size: cover;
+  background-position: center bottom;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: -5;
 }
