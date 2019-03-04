@@ -41,16 +41,25 @@ export default class Feria extends Component {
 
   movement(){
       let className = "cuadrado "
-      let points = 120;
+      let points = 50;
       if (points >= 100){
-        className += "fairAnimation "
+        className += "topHit "
       } 
+      if (points >= 80 && points <= 99){
+        className += "power80Hit"
+      }
+      if (points >= 60 && points <= 79){
+        className += "power60Hit"
+      }
+      if (points >= 40 && points <= 59){
+        className += "power40Hit"
+      }
       return className
   }
 
   bellResizing(){
     let className = "bell "
-    let points = 120;
+    let points = 81;
     if (points >= 100){
       className += "bellAnimation "
     } 

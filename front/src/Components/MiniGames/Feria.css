@@ -25,14 +25,50 @@ html, body{
 }
 
 .fairAnimation{
-  animation-name: infinite-spinning;
+  animation-name: topHit;
   animation-duration: 2s;
   }
 
-@keyframes infinite-spinning {
+@keyframes topHit {
   0% { bottom: 12.5%; }
   60% { bottom: 40vw; }
   60.1% {bottom: 39vw}
+  100% {bottom: 12.5%}
+}
+
+.power80Hit{
+  animation-name: power80Hit;
+  animation-duration: 2s;
+  }
+
+@keyframes power80Hit {
+  0% { bottom: 12.5%; }
+  60% { bottom: 33vw; }
+  60.1% {bottom: 32vw}
+  100% {bottom: 12.5%}
+}
+
+.power60Hit{
+  animation-name: power60Hit;
+  animation-duration: 2s;
+  }
+
+@keyframes power60Hit {
+  0% { bottom: 12.5%; }
+  60% { bottom: 27vw; }
+  60.1% {bottom: 26vw}
+  100% {bottom: 12.5%}
+}
+
+.power40Hit{
+  animation-name: power40Hit;
+  animation-duration: 2s;
+  }
+
+@keyframes power40Hit {
+  0% { bottom: 12.5%; }
+  60% { bottom: 22vw; }
+  60.1% {bottom: 21vw}
   100% {bottom: 12.5%}
 }
 
@@ -54,5 +90,5 @@ html, body{
 .fair{
   z-index: -1;
   width: 50vw;
-  
+
 }
