@@ -8,18 +8,7 @@ function calculate(cb) {
     socket.emit('clicked');
     socket.on('clicked', data => cb(null,data));
 }
-
-function calcMove(speedX,speedY,speedZ,fn,fn2){
-    socket.emit("move", {speedX,speedY,speedZ})
-    socket.on('move', data => {
-        console.log(data)
-        if(data.finish){
-            console.log(data.move)
-            fn(data)
-        }
-        else fn2(data)
-    });
-}
+ 
 
 export default class Basket extends Component {
     
@@ -32,11 +21,20 @@ export default class Basket extends Component {
             score: [],
             movement: "cuadrado ",
             bellResizing: "bell ", 
-            score2: 0
         };
         this.test();
     }
-
+    calcMove(speedX,speedY,speedZ){
+        socket.emit("move", {speedX,speedY,speedZ})
+        socket.on('move', data => {
+            console.log(data)
+            if(data.finish){
+                console.log(data.move)
+                this.showPC(data)
+            }
+            else this.movement(data)
+        });
+    }
     showPC(data){
         if(this.state.speedX == 0) this.setState({...this.state, score: data.move})
     }
@@ -56,15 +54,12 @@ export default class Basket extends Component {
         else if (points >= 40 && points <= 59){
             className += "power40Hit "
         }
-        this.setState({ ...this.state, movement:className, score2: data})
+        this.setState({ ...this.state, movement:className})
     }
 
     bellResizing(){
         let className = "bell "
-        let points = 120;
-        if (points >= 100){
-            className += "bellAnimation "
-        } 
+        className += "bellAnimation "
         this.setState({ ...this.state, bellResizing:className})
     }
     test(){
@@ -78,17 +73,17 @@ export default class Basket extends Component {
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedX > 20) calcMove(speedX,speedY,speedZ,this.showPC,this.movement)
+                    if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedY > 20) calcMove(speedX,speedY,speedZ,this.showPC,this.movement)
+                    if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedZ > 20) calcMove(speedX,speedY,speedZ,this.showPC,this.movement)
+                    if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 
             }, false);
@@ -127,22 +122,3 @@ export default class Basket extends Component {
         )
     }
 }
-
-//<canvas ref="canvas" width={window.innerWidth} height={window.innerHeight}/>
-// function rect(props) {
-//     const {ctx, x, y, width, height} = props;
-//     ctx.fillRect(x, y, width, height);
-// }
-// componentDidMount() {
-    //     this.updateCanvas();
-    // }
-    
-    // updateCanvas() {
-        //     const ctx = this.refs.canvas.getContext('2d');
-        //     ctx.clearRect(0,0, 300, 300);
-    
-        //     rect({ctx, x: 100, y: 100, width: 50, height: 50});
-        //     rect({ctx, x: 160, y: 100, width: 50, height: 50});
-        //     rect({ctx, x: 100, y: 160, width: 50, height: 50});
-        //     rect({ctx, x: 160, y: 160, width: 50, height: 50});
-        // }
