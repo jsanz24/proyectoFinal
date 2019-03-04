@@ -66,7 +66,7 @@ io.on('connection', (client) => {
       io.emit('move', {finish:true, move:move});
       client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
     } 
-    else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+    //else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
   })
   
   client.on('disconnect', function () {
