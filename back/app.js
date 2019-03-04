@@ -63,8 +63,8 @@ io.on('connection', (client) => {
       if(a.score < b.score) return 1
     })
     if(move.length == people.length-1){
-      io.emit('clicked', "hola");
-      io.emit('move', "hola2");
+      io.emit('move', "hola");
+      io.emit('move', {finish:true, move:move});
       client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
     } 
     else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
