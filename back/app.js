@@ -56,8 +56,8 @@ io.on('connection', (client) => {
       if(a.score < b.score) return 1
     })
     if(move.length == peopleFeria.length-1){
-      io.emit('feria', {finish:true, move:move});
       client.emit('feria', { id: client.id, score: sumaScore});
+      io.emit('feria', {finish:true, move:move});
     } 
     else client.emit('feria', { id: client.id, score: sumaScore});
   })
