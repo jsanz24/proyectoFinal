@@ -43,49 +43,48 @@ io.on('connection', (client) => {
   });
   client.on("feria",(obj)=>{
     let exists = false;
-    const sumaScore = obj.speedX + obj.speedY + obj.speedZ
     move.forEach(elem => {
       if(elem.id == client.id){
         exists = true;
-        if(elem.score < sumaScore) elem.score = sumaScore
+        if(elem.score < (obj.speedX + obj.speedY + obj.speedZ)) elem.score = obj.speedX + obj.speedY + obj.speedZ
       } 
     })
-    if(!exists && (sumaScore > 40)) move.push({id: client.id, score: sumaScore})
+    if(!exists && ((obj.speedX + obj.speedY + obj.speedZ) > 40)) move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
     move.sort((a,b) => {
       if(a.score > b.score) return -1
       if(a.score < b.score) return 1
     })
     if(move.length == peopleFeria.length-1){
-      client.emit('feria', { id: client.id, score: sumaScore});
+      client.emit('feria', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
       io.emit('feria', {finish:true, move:move});
     } 
-    else client.emit('feria', { id: client.id, score: sumaScore});
+    else client.emit('feria', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
   })
   //BASKET
-  client.on('clickedB', () => {
-    if(peopleBasket.indexOf(client.id) == -1) peopleBasket.push(client.id);
-    client.emit('clickedB', peopleBasket);
-  });
-  client.on("basket",(obj)=>{
-    let exists = false;
-    const sumaScore = obj.speedX + obj.speedY + obj.speedZ
-    shot.forEach(elem => {
-      if(elem.id == client.id){
-        exists = true;
-        if(elem.score < sumaScore) elem.score = sumaScore
-      } 
-    })
-    if(!exists && ((sumaScore) > 40)) shot.push({id: client.id, score: sumaScore})
-    shot.sort((a,b) => {
-      if(a.score > b.score) return -1
-      if(a.score < b.score) return 1
-    })
-    if(shot.length == peopleBasket.length-1){
-      io.emit('basket', {finish:true, shot});
-      client.emit('basket', { id: client.id, score: sumaScore});
-    } 
-    else client.emit('basket', { id: client.id, score: sumaScore});
-  })
+  // client.on('clickedB', () => {
+  //   if(peopleBasket.indexOf(client.id) == -1) peopleBasket.push(client.id);
+  //   client.emit('clickedB', peopleBasket);
+  // });
+  // client.on("basket",(obj)=>{
+  //   let exists = false;
+  //   const sumaScore = obj.speedX + obj.speedY + obj.speedZ
+  //   shot.forEach(elem => {
+  //     if(elem.id == client.id){
+  //       exists = true;
+  //       if(elem.score < sumaScore) elem.score = sumaScore
+  //     } 
+  //   })
+  //   if(!exists && ((sumaScore) > 40)) shot.push({id: client.id, score: sumaScore})
+  //   shot.sort((a,b) => {
+  //     if(a.score > b.score) return -1
+  //     if(a.score < b.score) return 1
+  //   })
+  //   if(shot.length == peopleBasket.length-1){
+  //     io.emit('basket', {finish:true, shot});
+  //     client.emit('basket', { id: client.id, score: sumaScore});
+  //   } 
+  //   else client.emit('basket', { id: client.id, score: sumaScore});
+  // })
   //ALL
   client.on('disconnect', function () {
     peopleFeria.splice(peopleFeria.indexOf(client.id,1));

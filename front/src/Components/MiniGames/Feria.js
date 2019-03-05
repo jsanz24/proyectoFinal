@@ -86,7 +86,6 @@ export default class Feria extends Component {
     render() {
         socket.on('feria', data => this.movement(data));
         socket.on('clickedF', data => {
-            console.log(data)
             if(data) this.setState({...this.state, startGame: true });
         });
         return (
