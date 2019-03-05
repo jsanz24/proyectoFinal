@@ -35,17 +35,18 @@ const clicks = [];
 const move = [];
 
 io.on('connection', (client) => {
-  people.push(client.id);
+  
   client.on('clicked', () => {
-    let exists = false;
-    clicks.forEach(elem => {
-      if(elem.id == client.id) exists = true;
-    })
-    if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
-    if(clicks.length == people.length) {
-      io.emit('clicked', clicks);
-    }
-    else client.emit('clicked', false);
+    if(people.indexOf(client.id) == -1) people.push(client.id);
+    // let exists = false;
+    // clicks.forEach(elem => {
+    //   if(elem.id == client.id) exists = true;
+    // })
+    // if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
+    // if(clicks.length === people.length) {
+    //   io.emit('clicked', clicks);
+    // }
+    else client.emit('clicked', people);
   });
   
   client.on("move",(obj)=>{
@@ -63,7 +64,6 @@ io.on('connection', (client) => {
       if(a.score < b.score) return 1
     })
     if(move.length == people.length-1){
-      io.emit('move', {finish:true,move});
       io.emit('move', {finish:true, move:move});
       client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
     } 
@@ -72,9 +72,9 @@ io.on('connection', (client) => {
   
   client.on('disconnect', function () {
     people.splice(people.indexOf(client.id,1));
-    clicks.forEach((elem,idx) => {
-      if(elem.id == client.id) clicks.splice(idx,1);
-    })
+    // clicks.forEach((elem,idx) => {
+    //   if(elem.id == client.id) clicks.splice(idx,1);
+    // })
     move.forEach((elem,idx) => {
       if(elem.id == client.id) move.splice(idx,1);
     })
