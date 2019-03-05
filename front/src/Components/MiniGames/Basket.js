@@ -129,7 +129,7 @@ export default class Basket extends Component {
             <img alt="" className={this.state.bellResizing} src="/img/campana.png" />
             <img alt="" className={this.state.movement} src="/img/cuadrado.png" />
           </div>
-          <div className="background">
+            <div className="background">
           </div>
         
         </div>

@@ -101,7 +101,6 @@ export default class Feria extends Component {
         return (
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
-                    <p>{this.state.speedX}</p>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p> 
                     <img alt="" className="fair" src="../../../img/feriaDesktop.png">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</img>*/}
                     {this.state.speedX === 0?<div className="desktopBackground">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
