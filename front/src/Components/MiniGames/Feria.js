@@ -104,7 +104,7 @@ export default class Feria extends Component {
                     <p>{this.state.speedX}</p>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p> 
                     <img alt="" className="fair" src="../../../img/feriaDesktop.png">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</img>*/}
-                    {this.state.speedX === 0?<div>{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
+                    {this.state.speedX === 0?<div className="desktopBackground">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
                     <div>
                         <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
                         <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
