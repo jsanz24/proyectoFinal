@@ -30,51 +30,38 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 
-const people = [];
-const clicks = [];
+const peopleBasket = [];
 const move = [];
 
 io.on('connection', (client) => {
-  
-  client.on('clicked', () => {
-    if(people.indexOf(client.id) == -1) people.push(client.id);
-    // let exists = false;
-    // clicks.forEach(elem => {
-    //   if(elem.id == client.id) exists = true;
-    // })
-    // if(!exists) clicks.push({id: client.id, time:new Date().getTime()})
-    // if(clicks.length === people.length) {
-    //   io.emit('clicked', clicks);
-    // }
-    else client.emit('clicked', people);
+  //FERIA
+  client.on('clickedB', () => {
+    if(peopleBasket.indexOf(client.id) == -1) peopleBasket.push(client.id);
+    client.emit('clickedB', peopleBasket);
   });
-  
-  client.on("move",(obj)=>{
-    //if(people.indexOf(client.id) == -1) people.push(client.id);
+  client.on("basket",(obj)=>{
     let exists = false;
+    const sumaScore = obj.speedX + obj.speedY + obj.speedZ
     move.forEach(elem => {
       if(elem.id == client.id){
         exists = true;
-        if(elem.score < obj.speedX + obj.speedY + obj.speedZ) elem.score = obj.speedX + obj.speedY + obj.speedZ
+        if(elem.score < sumaScore) elem.score = sumaScore
       } 
     })
-    if(!exists && ((obj.speedX + obj.speedY + obj.speedZ) > 40)) move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
+    if(!exists && ((sumaScore) > 40)) move.push({id: client.id, score: sumaScore})
     move.sort((a,b) => {
       if(a.score > b.score) return -1
       if(a.score < b.score) return 1
     })
-    if(move.length == people.length-1){
-      io.emit('move', {finish:true, move:move});
-      client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+    if(move.length == peopleBasket.length-1){
+      io.emit('basket', {finish:true, move:move});
+      client.emit('basket', { id: client.id, score: sumaScore});
     } 
-    else client.emit('move', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+    else client.emit('basket', { id: client.id, score: sumaScore});
   })
-  
+  //ALL
   client.on('disconnect', function () {
-    people.splice(people.indexOf(client.id,1));
-    // clicks.forEach((elem,idx) => {
-    //   if(elem.id == client.id) clicks.splice(idx,1);
-    // })
+    peopleBasket.splice(peopleBasket.indexOf(client.id,1));
     move.forEach((elem,idx) => {
       if(elem.id == client.id) move.splice(idx,1);
     })
