@@ -29,24 +29,20 @@ export default class Feria extends Component {
         this.setState({...this.state, score: data.move})
     }
     movement(data){
-        console.log("entra")
-        console.log(data)
-        let className = "cuadrado "
-        let points = Math.floor(data.score);
-        if (points >= 100){
-            className += "topHit "
-            this.bellResizing()
-        } 
-        else if (points >= 80 && points <= 99){
-            className += "power80Hit "
+        if(data.finish) this.showPC(data)
+        else {
+            let className = "cuadrado "
+            let points = Math.floor(data.score);
+            if (points >= 100){
+                className += "topHit "
+                this.bellResizing()
+            } 
+            else if (points >= 80 && points <= 99) className += "power80Hit "
+            else if (points >= 60 && points <= 79) className += "power60Hit "
+            else if (points >= 40 && points <= 59) className += "power40Hit "
+            
+            this.setState({ ...this.state, movement:className})
         }
-        else if (points >= 60 && points <= 79){
-            className += "power60Hit "
-        }
-        else if (points >= 40 && points <= 59){
-            className += "power40Hit "
-        }
-        this.setState({ ...this.state, movement:className})
     }
     
     bellResizing(){
@@ -88,13 +84,7 @@ export default class Feria extends Component {
     }
     
     render() {
-        socket.on('feria', data => {
-            console.log(data)
-            if(data.finish){
-                this.showPC(data)
-            }
-            else this.movement(data)
-        });
+        socket.on('feria', data => this.movement(data));
         socket.on('clickedF', data => {
             console.log(data)
             if(data) this.setState({...this.state, startGame: true });
