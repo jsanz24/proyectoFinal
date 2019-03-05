@@ -5,7 +5,10 @@ import "./Feria.css"
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
 
- 
+function calculate(cb) {
+    socket.emit('clickedF');
+    socket.on('clickedF', data => cb(null,data));
+}
 
 export default class Feria extends Component {
     
@@ -21,6 +24,8 @@ export default class Feria extends Component {
             startGame:false
         };
         this.test();
+        socket.on('feriaAll', data => this.showPC(data));
+        socket.on('feria', data => this.movement(data));
     }
     calcMove(speedX,speedY,speedZ){
         socket.emit("feria", {speedX,speedY,speedZ})
@@ -29,20 +34,18 @@ export default class Feria extends Component {
         this.setState({...this.state, score: data.move})
     }
     movement(data){
-        if(data.finish) this.showPC(data)
-        else {
-            let className = "cuadrado "
-            let points = Math.floor(data.score);
-            if (points >= 100){
-                className += "topHit "
-                this.bellResizing()
-            } 
-            else if (points >= 80 && points <= 99) className += "power80Hit "
-            else if (points >= 60 && points <= 79) className += "power60Hit "
-            else if (points >= 40 && points <= 59) className += "power40Hit "
-            
-            this.setState({ ...this.state, movement:className})
-        }
+        let className = "cuadrado "
+        let points = Math.floor(data.score);
+        if (points >= 100){
+            className += "topHit "
+            this.bellResizing()
+        } 
+        else if (points >= 80) className += "power80Hit "
+        else if (points >= 60) className += "power60Hit "
+        else if (points >= 40) className += "power40Hit "
+        
+        this.setState({ ...this.state, movement:className})
+        if(data.finish) this.callRanking();
     }
     
     bellResizing(){
@@ -50,6 +53,11 @@ export default class Feria extends Component {
         className += "bellAnimation "
         this.setState({ ...this.state, bellResizing:className})
     }
+    
+    callRanking(){
+        socket.emit("feriaAll")
+    }
+
     test(){
         if(window.DeviceMotionEvent){
             window.addEventListener("devicemotion", event => {
@@ -80,14 +88,13 @@ export default class Feria extends Component {
     }
     
     handleClick(e){
-        socket.emit('clickedF');
+        calculate((err, data) => {
+            console.log(data)
+            if(data) this.setState({...this.state, startGame: true });
+        });
     }
     
     render() {
-        socket.on('feria', data => this.movement(data));
-        socket.on('clickedF', data => {
-            if(data) this.setState({...this.state, startGame: true });
-        });
         return (
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>

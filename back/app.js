@@ -31,6 +31,7 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 
 const peopleFeria = [];
+const peopleMFeria = [];
 const peopleBasket = [];
 const move = [];
 const shot = [];
@@ -49,16 +50,25 @@ io.on('connection', (client) => {
         if(elem.score < (obj.speedX + obj.speedY + obj.speedZ)) elem.score = obj.speedX + obj.speedY + obj.speedZ
       } 
     })
-    if(!exists && ((obj.speedX + obj.speedY + obj.speedZ) > 40)) move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
+    if(!exists && ((obj.speedX + obj.speedY + obj.speedZ) > 40)){
+      peopleMFeria.push(client.id)
+      move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
+    } 
     move.sort((a,b) => {
       if(a.score > b.score) return -1
       if(a.score < b.score) return 1
     })
     if(move.length == peopleFeria.length-1){
-      client.emit('feria', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
-      io.emit('feria', {finish:true, move:move});
+      console.log("entra")
+      client.emit('feria', {finish:true, id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
     } 
     else client.emit('feria', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+  })
+  client.on("feriaAll", () => {
+    console.log("entra2")
+    peopleFeria.forEach(person=>{
+      if(peopleMFeria.indexOf(person) == -1) io.to(`${person}`).emit('feriaAll', {finish:true, move:move})
+    })
   })
   //BASKET
   // client.on('clickedB', () => {
