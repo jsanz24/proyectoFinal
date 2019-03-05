@@ -4,13 +4,7 @@ import "./basket.css"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
-function calculate(cb) {
-    socket.emit('clicked');
-    socket.on('clicked', data => cb(null,data));
-}
-
-
-export default class Pollas extends Component {
+export default class Basket extends Component {
     
     constructor(props) {
         super(props);
@@ -21,22 +15,16 @@ export default class Pollas extends Component {
             score: [],
             movement: "ball ",
             canastaPoint: "canasta ", 
+            startGame:false,
+            distance: Math.floor((Math.random()*25)+25)
         };
         this.test();
     }
     calcMove(speedX,speedY,speedZ){
-        socket.emit("move", {speedX,speedY,speedZ})
-        socket.on('move', data => {
-            console.log(data)
-            if(data.finish){
-                console.log(data.move)
-                this.showPC(data)
-            }
-            else this.movement(data)
-        });
+        socket.emit("basket", {speedX,speedY,speedZ,distance:this.state.distance})
     }
     showPC(data){
-        if(this.state.speedX === 0) this.setState({...this.state, score: data.move})
+        this.setState({...this.state, score: data.move})
     }
     movement(data){
         let className = "ball "
@@ -45,18 +33,9 @@ export default class Pollas extends Component {
             className += "ballNice "
             this.canastaPoint()
         } 
-        else if (points >= 80 && points <= 99){
-            className += "power80Hit "
-        }
-        else if (points >= 60 && points <= 79){
-            className += "power60Hit "
-        }
-        else if (points >= 40 && points <= 59){
-            className += "power40Hit "
-        }
         this.setState({ ...this.state, movement:className})
     }
-
+    
     canastaPoint(){
         let className = "canasta "
         className -= "canasta "
@@ -91,28 +70,45 @@ export default class Pollas extends Component {
         }
         else{
             console.log("correcto")
-        }
+        }   
     }
     
     handleClick(e){
-        calculate((err, data) => {
-            console.log(data)
-            if(data) this.setState({...this.state, a: true });
-        });
+        socket.emit('clickedB');
     }
     
     render() {
+        socket.on('basket', data => {
+            if(data.finish){
+                this.showPC(data)
+            }
+            else this.movement(data)
+        });
+        socket.on('clickedB', data => {
+            console.log(data)
+            if(data) this.setState({...this.state, startGame: true });
+        });
         return (
             <div>
-                    <div style={{position: "relative"}}>
-                        <div className="objects">
-                        <img alt="" className={this.state.canastaPoint} src="/img/basket/canasta.png" />
-                        <img alt="" className="ball ballAwryCenter" src="/img/basket/ball.png" />
+                {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
+                    {/* <p>Score: {JSON.stringify(this.state.score)}</p> 
+                    <img alt="" className="fair" src="../../../img/feriaDesktop.png">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</img>*/}
+                    {this.state.speedX === 0?<div className="desktopBackground">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
+                    <div>
+                        <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
+                        <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
+                        <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
+                        <p>Classes: {this.state.movement}</p>
+                        <div style={{position: "relative"}}>
+                            <div className="objects">
+                                <img alt="" className={this.state.canastaPoint} src="/img/basket/canasta.png" />
+                                <img alt="" className={this.state.movement} src="/img/basket/ball.png" />
+                            </div>
                         </div>
-                </div>
-                <div className="backgroundBasket"></div>
-                <div id="winner">
-                </div>
+                        <div className="backgroundBasket"></div>
+                        <div id="winner"></div>
+                    </div>}
+                </div>}
             </div>
         )
     }

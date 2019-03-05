@@ -30,16 +30,18 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 
+const peopleFeria = [];
 const peopleBasket = [];
 const move = [];
+const shot = [];
 
 io.on('connection', (client) => {
   //FERIA
-  client.on('clickedB', () => {
-    if(peopleBasket.indexOf(client.id) == -1) peopleBasket.push(client.id);
-    client.emit('clickedB', peopleBasket);
+  client.on('clickedF', () => {
+    if(peopleFeria.indexOf(client.id) == -1) peopleFeria.push(client.id);
+    client.emit('clickedF', peopleFeria);
   });
-  client.on("basket",(obj)=>{
+  client.on("feria",(obj)=>{
     let exists = false;
     const sumaScore = obj.speedX + obj.speedY + obj.speedZ
     move.forEach(elem => {
@@ -48,19 +50,45 @@ io.on('connection', (client) => {
         if(elem.score < sumaScore) elem.score = sumaScore
       } 
     })
-    if(!exists && ((sumaScore) > 40)) move.push({id: client.id, score: sumaScore})
+    if(!exists && (sumaScore > 40)) move.push({id: client.id, score: sumaScore})
     move.sort((a,b) => {
       if(a.score > b.score) return -1
       if(a.score < b.score) return 1
     })
-    if(move.length == peopleBasket.length-1){
-      io.emit('basket', {finish:true, move:move});
+    if(move.length == peopleFeria.length-1){
+      io.emit('feria', {finish:true, move:move});
+      client.emit('feria', { id: client.id, score: sumaScore});
+    } 
+    else client.emit('feria', { id: client.id, score: sumaScore});
+  })
+  //BASKET
+  client.on('clickedB', () => {
+    if(peopleBasket.indexOf(client.id) == -1) peopleBasket.push(client.id);
+    client.emit('clickedB', peopleBasket);
+  });
+  client.on("basket",(obj)=>{
+    let exists = false;
+    const sumaScore = obj.speedX + obj.speedY + obj.speedZ
+    shot.forEach(elem => {
+      if(elem.id == client.id){
+        exists = true;
+        if(elem.score < sumaScore) elem.score = sumaScore
+      } 
+    })
+    if(!exists && ((sumaScore) > 40)) shot.push({id: client.id, score: sumaScore})
+    shot.sort((a,b) => {
+      if(a.score > b.score) return -1
+      if(a.score < b.score) return 1
+    })
+    if(shot.length == peopleBasket.length-1){
+      io.emit('basket', {finish:true, shot});
       client.emit('basket', { id: client.id, score: sumaScore});
     } 
     else client.emit('basket', { id: client.id, score: sumaScore});
   })
   //ALL
   client.on('disconnect', function () {
+    peopleFeria.splice(peopleFeria.indexOf(client.id,1));
     peopleBasket.splice(peopleBasket.indexOf(client.id,1));
     move.forEach((elem,idx) => {
       if(elem.id == client.id) move.splice(idx,1);

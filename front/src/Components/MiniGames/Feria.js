@@ -23,12 +23,14 @@ export default class Feria extends Component {
         this.test();
     }
     calcMove(speedX,speedY,speedZ){
-        socket.emit("basket", {speedX,speedY,speedZ})
+        socket.emit("feria", {speedX,speedY,speedZ})
     }
     showPC(data){
         this.setState({...this.state, score: data.move})
     }
     movement(data){
+        console.log("entra")
+        console.log(data)
         let className = "cuadrado "
         let points = Math.floor(data.score);
         if (points >= 100){
@@ -63,38 +65,37 @@ export default class Feria extends Component {
                 if(speedX < event.acceleration.x && event.acceleration.x){
                     speedX = event.acceleration.x;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedY < event.acceleration.y && event.acceleration.y){
                     speedY = event.acceleration.y;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
                 if(speedZ < event.acceleration.z && event.acceleration.z){
                     speedZ = event.acceleration.z;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
                 } 
+                if(speedX > 20 || speedY > 20 || speedZ > 20) this.calcMove(speedX,speedY,speedZ)
                 
             }, false);
         }
         else{
             console.log("correcto")
-        }
+        }   
     }
     
     handleClick(e){
-        socket.emit('clickedB');
+        socket.emit('clickedF');
     }
     
     render() {
-        socket.on('basket', data => {
+        socket.on('feria', data => {
+            console.log(data)
             if(data.finish){
                 this.showPC(data)
             }
             else this.movement(data)
         });
-        socket.on('clickedB', data => {
+        socket.on('clickedF', data => {
             console.log(data)
             if(data) this.setState({...this.state, startGame: true });
         });
@@ -115,12 +116,10 @@ export default class Feria extends Component {
                                 <img alt="" className={this.state.bellResizing} src="/img/campana.png" />
                                 <img alt="" className={this.state.movement} src="/img/cuadrado.png" />
                             </div>
-                            <div className="background">
-                            </div>
+                            <div className="background"></div>
                         </div>
-                    </div>}
-                    <div id="winner">
-                    </div>
+                        <div id="winner"></div>
+                    </div>}                    
                 </div>}
             </div>
         )
