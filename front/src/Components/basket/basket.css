@@ -55,3 +55,27 @@
   90% {top: 90vw; height: 4vh; left: 43vw}
   100% {top: 90vw; height: 4vh; left: 43vw}
 }
+
+.ballAwryLeft{
+  animation-name: ballAwryLeft;
+  animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in;
+  }
+
+@keyframes ballAwryLeft {
+  0% { top: 140vw; }
+  70% {top: 26vw; height: 4vh; left: 37vw}
+  100% {top: 40vw; height: 4vh; left: 0vw}
+}
+
+.ballAwryCenter{
+  animation-name: ballAwryCenter;
+  animation-duration: 2s;
+  -webkit-animation-timing-function: ease-in;
+  }
+
+@keyframes ballAwryCenter {
+  0% { top: 140vw; }
+  60% {top: 18vw; height: 4vh;}
+  100% {top: 18vw; height: 20vh;}
+}
