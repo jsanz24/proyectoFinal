@@ -102,7 +102,7 @@ export default class Feria extends Component {
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
-                    {this.state.speedX === 0?<div className="desktopBackground">{<p className="pRanking">"Jesus Sanchez Sanz - 200 puntos"</p>/*this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)*/}</div>:
+                    {this.state.speedX === 0?<div className="desktopBackground"><div className="flexbox-container">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div></div>:
                     <div>
                         <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
                         <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
