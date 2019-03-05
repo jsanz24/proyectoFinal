@@ -107,7 +107,7 @@ export default class Pollas extends Component {
                     <div style={{position: "relative"}}>
                         <div className="objects">
                         <img alt="" className={this.state.canastaPoint} src="/img/basket/canasta.png" />
-                        <img alt="" className="ball ballAwryCenter" src="/img/basket/ball.png" />
+                        <img alt="" className={this.state.movement} src="/img/basket/ball.png" />
                         </div>
                 </div>
                 <div className="backgroundBasket"></div>
