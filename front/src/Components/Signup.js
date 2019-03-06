@@ -19,9 +19,9 @@ export default class Signup extends Component {
             this.setState({
                 username: username,
                 password: password,
-                error: false,
                 redirect:true
-            });        
+            }); 
+            this.props.getUser(response)       
         })
         .catch( error => console.log(error))
     }

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default class authService {
 	constructor() {
-		this.service = axios.create({baseURL:`${process.env.API_URL}/auth`});
+		this.service = axios.create({baseURL:`${process.env.REACT_APP_API_URL}/auth`});
 	}
 	logout = () => {
 		return this.service.get('/logout').then((data) => data.data);
