@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from "react-router-dom"
 import authService from "../Service/authSevice"
+import "./login.css"
 
 export default class Login extends Component {
     constructor(props) {
@@ -32,14 +33,17 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="login-page">
+                <div className="wrapper">
                 {this.state.redirect ? <Redirect to="/home" /> : ""}
-                <form onSubmit={this.handleFormSubmit}>
-                    <input type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)}></input>
-                    <input type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
-                    <button>Log In</button>
+                <form className="form-signin" onSubmit={this.handleFormSubmit}>
+                    <h2 className="form-signin-heading">Login</h2>
+                    <input className="form-control" type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)}></input>
+                    <input className="form-control" type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
+                    <button className="button full">Log In</button>
                 </form>
                 <Link to="/signup"><button>Sign Up</button></Link>
+                </div>
             </div>
         )
     }

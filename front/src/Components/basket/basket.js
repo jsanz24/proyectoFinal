@@ -16,30 +16,58 @@ export default class Basket extends Component {
             movement: "ball ",
             canastaPoint: "canasta ", 
             startGame:false,
-            distance: Math.floor((Math.random()*25)+25)
+            distance: Math.floor((Math.random()*25)+25),
+            round:1,
+            shooting:true
         };
         this.test();
+        socket.on('basket', data => this.movement(data));
+        socket.on("basketAll", data =>{
+            console.log(data)
+            this.setState({...this.state, 
+                score: data.shot, 
+                speedX: this.state.speedX != 0?1:0, 
+                speedY: 0, 
+                speedZ: 0, 
+                movement:"ball ", 
+                canastaPoint:"canasta ", 
+                round: this.state.round+1,
+                distance: Math.floor((Math.random()*25)+25),
+                shooting:true,
+                score:data.shot
+            })
+        })
+        socket.on('clickedB', data => {
+            console.log(data);
+            this.setState({...this.state, startGame: true })
+        });
     }
     calcMove(speedX,speedY,speedZ){
-        socket.emit("basket", {speedX,speedY,speedZ,distance:this.state.distance})
+        socket.emit("basket", {speedX,speedY,speedZ, distance: this.state.distance, round:this.state.round})
     }
     showPC(data){
-        this.setState({...this.state, score: data.move})
+        console.log("SHOWPC")
+        socket.emit("basketAll")
     }
     movement(data){
+        console.log(data)
+        
         let className = "ball "
-        let points = Math.floor(data.score);
-        if (points >= 100){
+        if(data.fail){
+            Math.floor(Math.random()*2)==0?className += "ballAwryLeft ":className += "ballAwryCenter "
+        }
+        else{
             className += "ballNice "
             this.canastaPoint()
-        } 
+        }
+        if(data.finish){
+            this.showPC(data)
+        }
         this.setState({ ...this.state, movement:className})
     }
     
     canastaPoint(){
-        let className = "canasta "
-        className -= "canasta "
-        className += "canastaPoint "
+        let className = "canastaPoint "
         this.setState({ ...this.state, canastaPoint:className})
     }
     test(){
@@ -50,20 +78,15 @@ export default class Basket extends Component {
                 let speedY = this.state.speedY;
                 let speedZ = this.state.speedZ;
                 
-                if(speedX < event.acceleration.x && event.acceleration.x){
-                    speedX = event.acceleration.x;
+                if(this.state.shooting){
+                    if(speedX < event.acceleration.x) speedX = event.acceleration.x;
+                    if(speedY < event.acceleration.y) speedY = event.acceleration.y;
+                    if(speedZ < event.acceleration.z) speedZ = event.acceleration.z;
                     this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedX > 20) this.calcMove(speedX,speedY,speedZ)
-                } 
-                if(speedY < event.acceleration.y && event.acceleration.y){
-                    speedY = event.acceleration.y;
-                    this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedY > 20) this.calcMove(speedX,speedY,speedZ)
-                } 
-                if(speedZ < event.acceleration.z && event.acceleration.z){
-                    speedZ = event.acceleration.z;
-                    this.setState({...this.state, speedX, speedY, speedZ})
-                    if(speedZ > 20) this.calcMove(speedX,speedY,speedZ)
+                    if(speedX > 35 || speedY > 35 || speedZ > 35 ){
+                        this.setState({ ...this.state, shooting: false})
+                        this.calcMove(speedX,speedY,speedZ)
+                    } 
                 } 
                 
             }, false);
@@ -78,27 +101,14 @@ export default class Basket extends Component {
     }
     
     render() {
-        socket.on('basket', data => {
-            if(data.finish){
-                this.showPC(data)
-            }
-            else this.movement(data)
-        });
-        socket.on('clickedB', data => {
-            console.log(data)
-            if(data) this.setState({...this.state, startGame: true });
-        });
+        
         return (
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
-                    {/* <p>Score: {JSON.stringify(this.state.score)}</p> 
-                    <img alt="" className="fair" src="../../../img/feriaDesktop.png">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</img>*/}
-                    {this.state.speedX === 0?<div className="desktopBackground">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
+                    <p>Score: {JSON.stringify(this.state.score)}</p> 
+                    {this.state.speedX === 0?<div className="desktopBackgroundBasket">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
                     <div>
-                        <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
-                        <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
-                        <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
-                        <p>Classes: {this.state.movement}</p>
+                        <p>SpeedX: {this.state.distance.toFixed(2)}</p>
                         <div style={{position: "relative"}}>
                             <div className="objects">
                                 <img alt="" className={this.state.canastaPoint} src="/img/basket/canasta.png" />

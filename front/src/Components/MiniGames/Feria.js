@@ -98,14 +98,9 @@ export default class Feria extends Component {
         return (
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
-                    {/* <p>Score: {JSON.stringify(this.state.score)}</p> 
-                    <img alt="" className="fair" src="../../../img/feriaDesktop.png">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</img>*/}
-                    {this.state.speedX === 0?<div className="desktopBackground">{this.state.score.map(elem => <div>{elem.id} - {elem.score}</div>)}</div>:
+                    {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
+                    {this.state.speedX === 0?<div className="desktopBackgroundFeria"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div>{idx+1} - {elem.id} - {elem.score}</div>)}</div></div>:
                     <div>
-                        <p>SpeedX: {this.state.speedX.toFixed(2)}</p>
-                        <p>SpeedY: {this.state.speedY.toFixed(2)}</p>
-                        <p>SpeedZ: {this.state.speedZ.toFixed(2)}</p>
-                        <p>Classes: {this.state.movement}</p>
                         <div style={{position: "relative"}}>
                             <div className="objects">
                                 <img alt="" className="fair" src="/img/juego-martillo.png" />

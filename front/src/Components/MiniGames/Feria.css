@@ -9,8 +9,8 @@ html, body{
   margin: 0 auto;
   z-index: 1;
   position: absolute;
-  bottom: 12.5vh;
-  left: 45.2vw;
+  bottom: 12.7vh;
+  left: 23.6vh;
   width: 3vw;
 }
 
@@ -19,9 +19,9 @@ html, body{
   margin: 0 auto;
   z-index: 2;
   position: absolute;
-  left: 36.8vw;
-  bottom: 63vh;
-  height: 12vh;
+  left: 36%;
+  bottom: 63%;
+  height: 12%;
 }
 
 .topHit{
@@ -31,8 +31,8 @@ html, body{
 
 @keyframes topHit {
   0% { bottom: 12.5%; }
-  60% { bottom: 59.5vw; }
-  60.1% {bottom: 59vw}
+  60% { bottom: 60%; }
+  60.1% {bottom: 59%}
   100% {bottom: 12.5%}
 }
 
@@ -43,8 +43,8 @@ html, body{
 
 @keyframes power80Hit {
   0% { bottom: 12.5%; }
-  60% { bottom: 50vw; }
-  60.1% {bottom: 49vw}
+  60% { bottom: 50%; }
+  60.1% {bottom: 49%}
   100% {bottom: 12.5%}
 }
 
@@ -55,8 +55,8 @@ html, body{
 
 @keyframes power60Hit {
   0% { bottom: 12.5%; }
-  60% { bottom: 40vw; }
-  60.1% {bottom: 39vw}
+  60% { bottom: 40%; }
+  60.1% {bottom: 39%}
   100% {bottom: 12.5%}
 }
 
@@ -67,8 +67,8 @@ html, body{
 
 @keyframes power40Hit {
   0% { bottom: 12.5%; }
-  60% { bottom: 30vw; }
-  60.1% {bottom: 29vw}
+  60% { bottom: 30%; }
+  60.1% {bottom: 29%}
   100% {bottom: 12.5%}
 }
 
@@ -79,12 +79,12 @@ html, body{
   }
 
 @keyframes bell-resizing {
-  0% {height: 9vw; width: 9vw; left: 44.3%}
-  90% {height: 9vw; width: 9vw; left: 44.3%}
-  93% {height: 13vw; width: 13vw; left: 43%}
-  94% {height: 9vw; width: 9vw; left: 44.3%}
-  97% {height: 13vw; width: 13vw; left: 43%}
-  100% {height: 9vw; width: 9vw; left: 44.3%}
+  0% {height: 12%; width: 12%; left: 18.8vh}
+  90% {height: 12%; width: 12%; left: 18.8vh}
+  93% {height: 15%; width: 15%; left: 43%}
+  94% {height: 12%; width: 12%; left: 18.8vh}
+  97% {height: 15%; width: 15%; left: 43%}
+  100% {height: 12%; width: 12%; left: 18.8vh}
 }
 
 .fair{
@@ -120,12 +120,36 @@ html, body{
   position: absolute;
   z-index: -5;
 }
-.desktopBackground {
+.desktopBackgroundFeria {
   background-image: url('/img/feriaDesktop.png');
   background-size: cover;
-  background-position: center bottom;
+  background-position: center top;
   height: 100vh;
   width: 100vw;
   position: absolute;
-  z-index: -5;
- }
+  z-index: 1;
+}
+
+/* .pRanking {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  
+
+} */
+
+.flexbox-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 40vh;
+  font-size: 1.5em;
+  font-weight: bold
+}
+
+.flexbox-container > div {
+	width: 50%;
+  color: #fff;
+  top: 20%;
+}
+
