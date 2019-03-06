@@ -115,7 +115,7 @@ io.on('connection', (client) => {
   client.on("basketAll",() => {
     peopleBasket.forEach(person=>{
       if(peopleSBasket.indexOf(person) == -1) {
-        io.to(`${person}`).emit('basketAll', {finish:true, shot})
+        io.emit('basketAll', {finish:true, shot})
       }
     })
   });
