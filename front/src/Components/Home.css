@@ -7,3 +7,6 @@
   background: url('./test.svg') 0 / auto 100%;
 }
 
+.buttons {
+  height: 120px;
+}

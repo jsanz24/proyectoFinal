@@ -9,6 +9,7 @@ import Basket from './Components/MiniGames/Basket';
 import Pollas from './Components/basket/pollas'
 import authService from './Service/authSevice'
 
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -48,6 +49,7 @@ class App extends Component {
           <Route exact path="/basket"  component={Basket}></Route>
           <Route exact path="/pollas"  component={Pollas}></Route>
         </Switch>
+        
       </div>
     );
   }
