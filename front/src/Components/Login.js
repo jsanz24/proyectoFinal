@@ -22,9 +22,16 @@ export default class Login extends Component {
                 password: password,
                 error: false,
                 redirect:true
-            });        
+            });
+            this.props.getUser (response);        
         })
-        .catch( error => console.log(error))
+        .catch( error => {console.log(error) 
+            this.setState({
+                username: username,
+                password: password,
+                error:true
+            })
+        })
     }
 
     handleChange = (event) => {
