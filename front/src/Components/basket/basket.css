@@ -89,3 +89,19 @@
   position: absolute;
   z-index: 1;
 }
+
+.flexbox-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 40vh;
+  font-size: 1.5em;
+  font-weight: bold
+}
+
+.flexbox-container > div {
+	width: 50%;
+  color: #fff;
+  top: 20%;
+}
+

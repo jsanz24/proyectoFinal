@@ -130,13 +130,6 @@ html, body{
   z-index: 1;
 }
 
-/* .pRanking {
-  display: flex;
-  flex-direction: column;
-  color: white;
-  
-
-} */
 
 .flexbox-container {
   display: flex;
