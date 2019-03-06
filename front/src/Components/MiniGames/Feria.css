@@ -19,7 +19,7 @@ html, body{
   margin: 0 auto;
   z-index: 2;
   position: absolute;
-  left: 18.8vh;
+  left: 36%;
   bottom: 63%;
   height: 12%;
 }
@@ -120,7 +120,7 @@ html, body{
   position: absolute;
   z-index: -5;
 }
-.desktopBackground {
+.desktopBackgroundFeria {
   background-image: url('/img/feriaDesktop.png');
   background-size: cover;
   background-position: center top;
@@ -130,13 +130,6 @@ html, body{
   z-index: 1;
 }
 
-/* .pRanking {
-  display: flex;
-  flex-direction: column;
-  color: white;
-  
-
-} */
 
 .flexbox-container {
   display: flex;

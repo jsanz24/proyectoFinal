@@ -30,40 +30,106 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 
+const peopleFeria = [];
+const peopleMFeria = [];
 const peopleBasket = [];
+const peopleSBasket = [];
 const move = [];
+const shot = [];
 
 io.on('connection', (client) => {
   //FERIA
+  client.on('clickedF', () => {
+    if(peopleFeria.indexOf(client.id) == -1) peopleFeria.push(client.id);
+    client.emit('clickedF', peopleFeria);
+  });
+  client.on("feria",(obj)=>{
+    let exists = false;
+    move.forEach(elem => {
+      if(elem.id == client.id){
+        exists = true;
+        if(elem.score < (obj.speedX + obj.speedY + obj.speedZ)) elem.score = obj.speedX + obj.speedY + obj.speedZ
+      } 
+    })
+    if(!exists && ((obj.speedX + obj.speedY + obj.speedZ) > 40)){
+      peopleMFeria.push(client.id)
+      move.push({id: client.id, score: obj.speedX + obj.speedY + obj.speedZ})
+    } 
+    move.sort((a,b) => {
+      if(a.score > b.score) return -1
+      if(a.score < b.score) return 1
+    })
+    if(move.length == peopleFeria.length-1) client.emit('feria', {finish:true, id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+    else client.emit('feria', { id: client.id, score: obj.speedX + obj.speedY + obj.speedZ});
+  })
+  client.on("feriaAll", () => {
+    peopleFeria.forEach(person=>{
+      if(peopleMFeria.indexOf(person) == -1) io.to(`${person}`).emit('feriaAll', {finish:true, move:move})
+    })
+  })
+  //BASKET
   client.on('clickedB', () => {
     if(peopleBasket.indexOf(client.id) == -1) peopleBasket.push(client.id);
     client.emit('clickedB', peopleBasket);
   });
   client.on("basket",(obj)=>{
     let exists = false;
-    const sumaScore = obj.speedX + obj.speedY + obj.speedZ
-    move.forEach(elem => {
-      if(elem.id == client.id){
+    let fail = false;
+    let can = true;
+    const sumaScore = Math.floor(obj.speedX + obj.speedY + obj.speedZ)
+    shot.forEach(elem => {
+      if(elem.id == client.id && elem.round != obj.round){
         exists = true;
-        if(elem.score < sumaScore) elem.score = sumaScore
+        let num = calcPoints(obj.distance)
+        if(num == 0) fail = true
+        elem.score += num
+        elem.round++
       } 
     })
-    if(!exists && ((sumaScore) > 40)) move.push({id: client.id, score: sumaScore})
-    move.sort((a,b) => {
-      if(a.score > b.score) return -1
-      if(a.score < b.score) return 1
-    })
-    if(move.length == peopleBasket.length-1){
-      io.emit('basket', {finish:true, move:move});
-      client.emit('basket', { id: client.id, score: sumaScore});
+    if(!exists && ((sumaScore) > 40)){
+      peopleSBasket.push(client.id)
+      let num = calcPoints(obj.distance)
+      if(num==0) fail = true;
+      shot.push({id: client.id, score: num, round:obj.round })
     } 
-    else client.emit('basket', { id: client.id, score: sumaScore});
+    console.log(shot.length);
+    console.log(peopleBasket.length);
+    shot.forEach( elem => {
+      if(elem.round != obj.round) can = false;
+    })
+    if(shot.length == peopleBasket.length-1 && can){
+      client.emit('basket', {finish:true, id: client.id, score: sumaScore, fail});
+    } 
+
+    else client.emit('basket', {id: client.id, score: sumaScore, fail});
+    
+    function calcPoints(distance){
+      let num = Math.abs((distance*2)-sumaScore)
+      if(num == 0) num = 5;
+      else if(num <= 4) num = 3
+      else if(num <= 10) num = 1
+      else num = 0
+      return num
+    }
   })
+  client.on("basketAll",() => {
+    peopleBasket.forEach(person=>{
+      if(peopleSBasket.indexOf(person) == -1) {
+        io.emit('basketAll', {finish:true, shot})
+      }
+    })
+  });
   //ALL
   client.on('disconnect', function () {
+    peopleFeria.splice(peopleFeria.indexOf(client.id,1));
+    peopleMFeria.splice(peopleMFeria.indexOf(client.id,1));
     peopleBasket.splice(peopleBasket.indexOf(client.id,1));
+    peopleSBasket.splice(peopleSBasket.indexOf(client.id,1));
     move.forEach((elem,idx) => {
       if(elem.id == client.id) move.splice(idx,1);
+    })
+    shot.forEach((elem,idx) => {
+      if(elem.id == client.id) shot.splice(idx,1);
     })
   });
 });

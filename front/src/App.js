@@ -6,7 +6,7 @@ import Signup from './Components/Signup';
 import Home from './Components/Home';
 import Feria from './Components/MiniGames/Feria';
 import Basket from './Components/MiniGames/Basket';
-import Pollas from './Components/basket/pollas'
+import Pollas from './Components/basket/basket'
 import authService from './Service/authSevice'
 
 
