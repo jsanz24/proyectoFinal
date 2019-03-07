@@ -1,0 +1,46 @@
+html, body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.gun {
+  display: flex;
+  margin: 0 auto;
+  z-index: 2;
+  position: absolute;
+  height: 50vh;
+  left: 23%;
+  padding-top: 14%;
+}
+
+.shootAnimation {
+  animation-name: shootAnimation;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  }
+
+@keyframes shootAnimation {
+  50% {left: 18%; transform: rotate(-10deg)}
+  100% {left:23%;}
+}
+
+.backgroundWestMobile {
+  background-image: url('/img/west/fondoMobile.png');
+  background-size: cover;
+  background-position: center bottom;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: -5;
+}
+
+.fondoDesktopWest {
+  background-image: url('/img/west/westDesktop2.png');
+  background-size: cover;
+  background-position: center top;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 1;
+}

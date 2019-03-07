@@ -15,6 +15,7 @@ export default class Home extends Component {
                 <Link to="/pesca"><button>pesca</button></Link>
                 <Link to="/funam"><button>funam</button></Link>
             </div>
+            
         )
     }
 }

@@ -8,6 +8,7 @@ import Feria from './Components/MiniGames/Feria';
 import Basket from './Components/MiniGames/Basket';
 import Pollas from './Components/basket/basket'
 import authService from './Service/authSevice'
+import West from './Components/west/west';
 
 
 class App extends Component {
@@ -48,6 +49,7 @@ class App extends Component {
           <Route exact path="/feria"  component={Feria}></Route>
           <Route exact path="/basket"  component={Basket}></Route>
           <Route exact path="/pollas"  component={Pollas}></Route>
+          <Route exact path="/west"  component={West}></Route>
         </Switch>
         
       </div>
