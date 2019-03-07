@@ -9,5 +9,5 @@ animation: dance 1s infinite alternate;
     {transform: rotate(20deg)}
 }
 </style>
-<text font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="100" y=".8em" opacity=".2" class="dance">a</text>
+<text font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="100" y=".8em" opacity=".2" class="dance"><i class="em em-video_game"></i></text>
 </svg>

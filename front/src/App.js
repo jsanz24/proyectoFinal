@@ -5,7 +5,7 @@ import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Home from './Components/Home';
 import Feria from './Components/Feria/Feria';
-import Basket from './Components/Basket/basket'
+import Basket from './Components/basket/basket'
 import West from './Components/west/Wildwest';
 import authService from './Service/authSevice'
 
