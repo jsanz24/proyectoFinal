@@ -4,9 +4,8 @@ import {Switch,Route} from "react-router-dom"
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Home from './Components/Home';
-import Feria from './Components/MiniGames/Feria';
-import Basket from './Components/MiniGames/Basket';
-import Pollas from './Components/basket/basket'
+import Feria from './Components/Feria/Feria';
+import Basket from './Components/Basket/basket'
 import authService from './Service/authSevice'
 import West from './Components/west/west';
 
@@ -48,7 +47,6 @@ class App extends Component {
           <Route exact path="/home"  component={Home}></Route>
           <Route exact path="/feria"  component={Feria}></Route>
           <Route exact path="/basket"  component={Basket}></Route>
-          <Route exact path="/pollas"  component={Pollas}></Route>
           <Route exact path="/west"  component={West}></Route>
         </Switch>
         

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
 import "./Feria.css"
+import {Link} from "react-router-dom"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
@@ -99,10 +100,11 @@ export default class Feria extends Component {
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
-                    {this.state.speedX === 0?<div className="desktopBackgroundFeria"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div>{idx+1} - {elem.id} - {elem.score}</div>)}</div></div>:
+                    {this.state.speedX === 0?<div className="desktopBackgroundFeria"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div>{idx+1} - {elem.id} - {elem.score}</div>)}</div><Link to="/home"><button>back</button></Link></div>:
                     <div>
                         <div style={{position: "relative"}}>
                             <div className="objects">
+                                <Link to="/home"><button>back</button></Link>
                                 <img alt="" className="fair" src="/img/juego-martillo.png" />
                                 <img alt="" className={this.state.bellResizing} src="/img/campana.png" />
                                 <img alt="" className={this.state.movement} src="/img/cuadrado.png" />
