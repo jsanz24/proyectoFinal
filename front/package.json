@@ -8,6 +8,7 @@
     "engine.io": "^3.3.2",
     "engine.io-client": "^3.3.2",
     "konva": "^3.1.6",
+    "node-sass": "^4.11.0",
     "react": "^16.8.3",
     "react-accelerometer": "^1.0.1",
     "react-dom": "^16.8.3",

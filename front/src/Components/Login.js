@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Link, Redirect} from "react-router-dom"
 import authService from "../Service/authSevice"
-import "./login.css"
+import "./login.scss"
 
 export default class Login extends Component {
     constructor(props) {
@@ -45,13 +45,22 @@ export default class Login extends Component {
                 {this.state.redirect ? <Redirect to="/home" /> : ""}
                 <form className="form-signin" onSubmit={this.handleFormSubmit}>
                     <h2 className="form-signin-heading">Login</h2>
-                    <input className="form-control" type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)}></input>
-                    <input className="form-control" type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
+                    <input className="form-control" type="text" name="username" placeholder="name" value={this.state.username} onChange={e => this.handleChange(e)}></input>
+                    <input className="form-control" type="password" name="password" placeholder="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
+                    <label className="checkbox"></label>
                     <button className="button full">Log In</button>
+                    <p className="account-message">
+                        Don't have an account yet?
+                    </p>
+                    <Link to="/signup">Sign Up</Link>
                 </form>
-                <Link to="/signup"><button>Sign Up</button></Link>
+                    
                 </div>
             </div>
         )
     }
 }
+
+
+   
+   

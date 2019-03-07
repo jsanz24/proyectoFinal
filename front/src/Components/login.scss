@@ -1,0 +1,113 @@
+$primary-color: #00796B;
+
+.login-page {
+  background: url('data:image/svg+xml,\
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\
+    <text y = "1em" font-size="70">🕹</text>\
+    </svg>');
+  background-size: 100px 100px;
+  height: 100vh;
+  padding-top: 180px;
+}
+
+.signup-page {
+  // background: url(../images/signup.jpg) no-repeat;
+  // background-size: cover;
+  height: 100vh;
+  padding-top: 180px;
+}
+
+.form-signin {
+  max-width: 380px;
+  padding: 15px 35px 25px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 20px;
+
+  .form-signin-heading {
+    font-family: 'Press Start 2P', cursive;
+	  margin-bottom: 30px;
+	}
+
+	.checkbox {
+	  font-weight: normal;
+	}
+
+	.form-control {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+    padding: 10px;
+    
+		&:focus {
+		  z-index: 2;
+		}
+  }
+  
+  .no-bottom {
+    margin-bottom: 0px !important;
+  }
+
+	input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+  }
+}
+
+.account-message {
+  font-family: 'Press Start 2P', cursive;
+}
+
+.flex-center {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  form {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.button {
+  display: inline-block;
+  margin: .5rem auto;
+  color: #ffffff;
+  background: $primary-color;
+  border-color: $primary-color;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: $primary-color;
+  cursor: pointer;
+  min-width: 220px;
+  text-align: center;
+  line-height: 2.3em ;
+  box-shadow: 0px 3px 18px 0px rgba(50, 50, 50, 0.3);
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 25px ;
+  transition: all .2s ease-in-out;
+
+  &.full {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  &:hover {
+    background: rgba(255,255,255,0);
+    border-color: $primary-color;
+    color: $primary-color ;
+  }
+}
