@@ -35,10 +35,9 @@ const peopleMFeria = [];
 const peopleBasket = [];
 const peopleSBasket = [];
 const peopleWild = [];
-const peopleWWild = [];
 const move = [];
 const shot = [];
-const wild = undefined;
+let wild = undefined;
 
 io.on('connection', (client) => {
   //WILDWEST
@@ -46,9 +45,9 @@ io.on('connection', (client) => {
     if(peopleWild.indexOf(client.id) == -1) peopleWild.push(client.id);
     client.emit('clickedW', peopleWild);
   });
-  client.on("wildWest",(speedX)=>{
+  client.on("wildWest",()=>{
     if(!wild){
-      wild = {id: client.id, time: new Date().getTime}
+      wild = client.id
       io.emit('wildWest', wild);
     } 
   })

@@ -6,8 +6,8 @@ import Signup from './Components/Signup';
 import Home from './Components/Home';
 import Feria from './Components/Feria/Feria';
 import Basket from './Components/Basket/basket'
+import West from './Components/west/Wildwest';
 import authService from './Service/authSevice'
-import West from './Components/west/west';
 
 
 class App extends Component {

@@ -107,7 +107,7 @@ export default class Basket extends Component {
             <div>
                 {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p>  */}
-                    {this.state.speedX === 0?<div className="desktopBackgroundBasket"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div >{idx+1} - {elem.id} - {elem.score}</div>)}</div></div>:
+                    {this.state.speedX === 0?<div className="desktopBackgroundBasket"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div >{idx+1} - {elem.id} - {elem.score}</div>)}</div><Link to="/home"><button>back</button></Link></div>:
                     <div>
                         <p>SpeedX: {this.state.distance.toFixed(2)}</p>
                         <div style={{position: "relative"}}>
