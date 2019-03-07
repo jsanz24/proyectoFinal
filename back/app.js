@@ -34,10 +34,24 @@ const peopleFeria = [];
 const peopleMFeria = [];
 const peopleBasket = [];
 const peopleSBasket = [];
+const peopleWild = [];
+const peopleWWild = [];
 const move = [];
 const shot = [];
+const wild = undefined;
 
 io.on('connection', (client) => {
+  //WILDWEST
+  client.on('clickedW', () => {
+    if(peopleWild.indexOf(client.id) == -1) peopleWild.push(client.id);
+    client.emit('clickedW', peopleWild);
+  });
+  client.on("wildWest",(speedX)=>{
+    if(!wild){
+      wild = {id: client.id, time: new Date().getTime}
+      io.emit('wildWest', wild);
+    } 
+  })
   //FERIA
   client.on('clickedF', () => {
     if(peopleFeria.indexOf(client.id) == -1) peopleFeria.push(client.id);
@@ -92,8 +106,6 @@ io.on('connection', (client) => {
       if(num==0) fail = true;
       shot.push({id: client.id, score: num, round:obj.round })
     } 
-    console.log(shot.length);
-    console.log(peopleBasket.length);
     shot.forEach( elem => {
       if(elem.round != obj.round) can = false;
     })

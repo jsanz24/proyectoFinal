@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
 import "./basket.css"
+import {Link} from "react-router-dom"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
@@ -117,6 +118,7 @@ export default class Basket extends Component {
                         </div>
                         <div className="backgroundBasket"></div>
                         <div id="winner"></div>
+                        <Link to="/home"><button>back</button></Link>
                     </div>}
                 </div>}
             </div>
