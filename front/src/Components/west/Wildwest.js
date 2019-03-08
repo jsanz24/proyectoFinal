@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import io from 'socket.io-client';
 import "./west.css"
 import {Link} from "react-router-dom"
+import Start from '../start/start';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
@@ -60,7 +61,8 @@ export default class wildWest extends Component {
         
         return (
             <div>
-                {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div>
+                {/* {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div> */}
+                {!this.state.startGame?<Start />:<div>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p>  */}
                     {this.state.speedX === 0?<div className="fondoDesktopWest"><div className="flexbox-container">{this.state.winner}</div><Link to="/home"><button>back</button></Link></div>:
                     <div>
