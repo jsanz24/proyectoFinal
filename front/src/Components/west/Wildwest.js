@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client';
 import "./west.css"
+import authService from "../../Service/authSevice"
 import {Link} from "react-router-dom"
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
@@ -15,6 +16,7 @@ export default class wildWest extends Component {
             startGame:false,
             shooting:true
         };
+        this.service = new authService();
         this.test();
         socket.on('wildWest', id => {
             console.log("winner: "+id)
@@ -24,8 +26,11 @@ export default class wildWest extends Component {
         socket.on('clickedW', (data) => {
             console.log(data)
             this.setState({...this.state, startGame: true })
-        }
-        );
+        });
+    }
+    checkProfile(){
+        // this.service.login(username, password)
+        //     .then(response => {
     }
     movement(){
         this.setState({ ...this.state, movement:"gun shootAnimation"})
