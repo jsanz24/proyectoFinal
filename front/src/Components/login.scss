@@ -1,11 +1,8 @@
 $primary-color: #00796B;
 
 .login-page {
-  background: url('data:image/svg+xml,\
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\
-    <text y = "1em" font-size="70">🕹</text>\
-    </svg>');
-  background-size: 100px 100px;
+  background: url(/img/login/fondo.png);
+  background-size: cover;
   height: 100vh;
   padding-top: 180px;
 }
@@ -111,3 +108,38 @@ $primary-color: #00796B;
     color: $primary-color ;
   }
 }
+
+.button2 {
+  display: inline-block;
+  margin: .5rem auto;
+  color: #ffffff;
+  background: $primary-color;
+  border-color: $primary-color;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  background: $primary-color;
+  cursor: pointer;
+  min-width: 100px;
+  text-align: center;
+  line-height: 2em ;
+  box-shadow: 0px 3px 18px 0px rgba(50, 50, 50, 0.3);
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 25px ;
+  transition: all .2s ease-in-out;
+
+  &.full {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    font-family: 'Press Start 2P', cursive;
+    text-decoration: none;
+  }
+
+  &:hover {
+    background: rgba(255,255,255,0);
+    border-color: $primary-color;
+    color: $primary-color ;
+  }
+} 
+

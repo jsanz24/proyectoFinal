@@ -47,12 +47,11 @@ export default class Login extends Component {
                     <h2 className="form-signin-heading">Login</h2>
                     <input className="form-control" type="text" name="username" placeholder="name" value={this.state.username} onChange={e => this.handleChange(e)}></input>
                     <input className="form-control" type="password" name="password" placeholder="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
-                    <label className="checkbox"></label>
                     <button className="button full">Log In</button>
                     <p className="account-message">
                         Don't have an account yet?
                     </p>
-                    <Link to="/signup">Sign Up</Link>
+                    <Link to="/signup" className="button2">Sign Up</Link>
                 </form>
                     
                 </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import {Redirect} from "react-router-dom"
+import {Redirect, Link} from "react-router-dom"
 import authService from "../Service/authSevice"
+import "./login.scss"
 
 export default class Signup extends Component {
     constructor(props) {
@@ -32,14 +33,22 @@ export default class Signup extends Component {
     }
     render() {
         return (
-            <div>
-                {this.state.redirect ? <Redirect to="/home" /> : ""}
-                <form onSubmit={this.handleFormSubmit}>
-                    <input type="text" name="username" value={this.state.username} onChange={e => this.handleChange(e)}></input>
-                    <input type="password" name="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
-                    <button>Sign Up</button>
-                </form>
+            <div className="login-page">
+            <div className="wrapper">
+            {this.state.redirect ? <Redirect to="/home" /> : ""}
+            <form className="form-signin" onSubmit={this.handleFormSubmit}>
+                <h2 className="form-signin-heading">SignUp</h2>
+                <input className="form-control" type="text" name="username" placeholder="name" value={this.state.username} onChange={e => this.handleChange(e)}></input>
+                <input className="form-control" type="password" name="password" placeholder="password" value={this.state.password} onChange={e => this.handleChange(e)}></input>
+                <button className="button full">Sign Up</button>
+                <p className="account-message">
+                    Do you have an account?
+                </p>
+                <Link to="/" className="button2">Log In</Link>
+            </form>
+                
             </div>
+        </div>
         )
     }
 }
