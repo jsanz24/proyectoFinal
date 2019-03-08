@@ -6,12 +6,6 @@ import Start from '../start/start';
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
-
-function calculate(cb) {
-    socket.emit('clickedF');
-    socket.on('clickedF', data => cb(null,data));
-}
-
 export default class Feria extends Component {
     
     constructor(props) {
@@ -28,6 +22,10 @@ export default class Feria extends Component {
         this.test();
         socket.on('feriaAll', data => this.showPC(data));
         socket.on('feria', data => this.movement(data));
+        socket.on('clickedF', data => {
+            console.log(data)
+            if(data) this.setState({...this.state, startGame: true });
+        });
     }
     calcMove(speedX,speedY,speedZ){
         socket.emit("feria", {speedX,speedY,speedZ})
@@ -90,16 +88,13 @@ export default class Feria extends Component {
     }
     
     handleClick(e){
-        calculate((err, data) => {
-            console.log(data)
-            if(data) this.setState({...this.state, startGame: true });
-        });
+        socket.emit('clickedF');
     }
     
     render() {
         return (
             <div>
-                {!this.state.startGame?<Start />:<div>
+                {!this.state.startGame?<Start onclick={this.handleClick}/>:<div>
                 {/* {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div> */}
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
                     {this.state.speedX === 0?<div className="desktopBackgroundFeria"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div>{idx+1} - {elem.id} - {elem.score}</div>)}</div><Link to="/home"><button>back</button></Link></div>:

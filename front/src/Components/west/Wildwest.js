@@ -18,6 +18,7 @@ export default class wildWest extends Component {
             shooting:true
         };
         this.service = new authService();
+        this.checkProfile();
         this.test();
         socket.on('wildWest', id => {
             console.log("winner: "+id)
@@ -30,8 +31,9 @@ export default class wildWest extends Component {
         });
     }
     checkProfile(){
-        // this.service.login(username, password)
-        //     .then(response => {
+        this.service.loggedin()
+        .then(response => {console.log(response)})
+        .catch(err=>console.log(err))
     }
     movement(){
         this.setState({ ...this.state, movement:"gun shootAnimation"})
@@ -58,7 +60,6 @@ export default class wildWest extends Component {
     }
     
     handleClick(e){
-        console.log("entra")
         socket.emit('clickedW');
     }
     
@@ -66,8 +67,7 @@ export default class wildWest extends Component {
         
         return (
             <div>
-                {/* {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div> */}
-                {!this.state.startGame?<Start />:<div>
+                {!this.state.startGame?<Start onclick={this.handleClick}/>:<div>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p>  */}
                     {this.state.speedX === 0?<div className="fondoDesktopWest"><div className="flexbox-container">{this.state.winner}</div><Link to="/home"><button>back</button></Link></div>:
                     <div>

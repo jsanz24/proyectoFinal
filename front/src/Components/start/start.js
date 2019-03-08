@@ -7,16 +7,17 @@ const socket = io(`${process.env.REACT_APP_API_URL}`);
 export default class Start extends Component {
   constructor(props) {
     super(props);
-    socket.on('clickedW', (data) => {
-        console.log(data)
-        this.setState({...this.state, startGame: true })
-    }
-    );
-}
+    // socket.on('clickedW', (data) => {
+    //     console.log(data)
+    //     this.setState({...this.state, startGame: true })
+    // }
+    //);
+  }
   handleClick(e){
+    console.log(this.props)
     console.log("entra")
-    socket.emit('clickedW');
-}
+    this.props.onclick()
+  }
 
   render() {
     return (

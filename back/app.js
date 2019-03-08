@@ -42,7 +42,6 @@ let wild = undefined;
 io.on('connection', (client) => {
   //WILDWEST
   client.on('clickedW', () => {
-    console.log("clica")
     if(peopleWild.indexOf(client.id) == -1) peopleWild.push(client.id);
     client.emit('clickedW', peopleWild);
   });

@@ -106,8 +106,7 @@ export default class Basket extends Component {
         
         return (
             <div>
-                {!this.state.startGame?<Start />:<div>
-                {/* {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div> */}
+                {!this.state.startGame?<Start onclick={this.handleClick}/>:<div>
                     {/* <p>Score: {JSON.stringify(this.state.score)}</p>  */}
                     {this.state.speedX === 0?<div className="desktopBackgroundBasket"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div >{idx+1} - {elem.id} - {elem.score}</div>)}</div><Link to="/home"><button>back</button></Link></div>:
                     <div>

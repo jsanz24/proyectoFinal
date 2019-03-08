@@ -9,7 +9,11 @@ export default class authService {
 	};
 
 	loggedin = () => {
-		return this.service.get('/loggedin').then((data) => data.data);
+		console.log("AUTHSERVICE")
+		return this.service.get('/loggedin').then((data) => {
+			console.log("LLEGAN COSAS")
+			return data.data
+		});
 	};
 
 	login = (username,password) => {
