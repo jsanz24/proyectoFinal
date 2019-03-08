@@ -35,8 +35,7 @@ export default class Basket extends Component {
                 canastaPoint:"canasta ", 
                 round: this.state.round+1,
                 distance: Math.floor((Math.random()*25)+25),
-                shooting:true,
-                score:data.shot
+                shooting:true
             })
         })
         socket.on('clickedB', data => {
