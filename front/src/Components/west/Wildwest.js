@@ -52,6 +52,7 @@ export default class wildWest extends Component {
     }
     
     handleClick(e){
+        console.log("entra")
         socket.emit('clickedW');
     }
     
