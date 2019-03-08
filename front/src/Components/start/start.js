@@ -21,7 +21,7 @@ export default class Start extends Component {
 
   render() {
     return (
-      <div>
+      <div className="startBody">
         <div className="presentation-content">
           <h1 className="presentation-title">Press any button to start</h1>
           <div className="top-button-group">

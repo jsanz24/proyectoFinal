@@ -7,22 +7,21 @@ html, body{
 .gun {
   display: flex;
   margin: 0 auto;
-  z-index: 2;
   position: absolute;
-  height: 50vh;
-  left: 23%;
-  padding-top: 14%;
+  height: 20vh;
+  left: 10%;
+  padding-top: 52%;
 }
 
 .shootAnimation {
   animation-name: shootAnimation;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-iteration-count: 1;
   }
 
 @keyframes shootAnimation {
-  50% {left: 18%; transform: rotate(-10deg)}
-  100% {left:23%;}
+  50% {left: 2%; transform: rotate(-10deg)}
+  100% {left:10%;}
 }
 
 .backgroundWestMobile {

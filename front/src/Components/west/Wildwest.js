@@ -75,7 +75,7 @@ export default class wildWest extends Component {
                         <div style={{position: "relative"}}>
                             <div className="objects">
                                 <Link to="/home"><button>back</button></Link>
-                                <img alt="" className={this.state.className} src="/img/west/gun.png" />
+                                <img alt="" className={this.state.movement} src="/img/west/gun.png" />
                             </div>
                         </div>
                         <div className="backgroundWestMobile"></div>
