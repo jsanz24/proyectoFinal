@@ -27,4 +27,4 @@ Conseguir conectar la app con los móviles a través de websockets y conseguir l
 
 ## Enlace
 
-[Pulsar aquí](https://github.com/jsanz24/proyectoFinal)
+[Pulsar aquí](https://just-play-hack.herokuapp.com/)
