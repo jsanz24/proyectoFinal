@@ -95,8 +95,6 @@ export default class Feria extends Component {
         return (
             <div>
                 {!this.state.startGame?<Start onclick={this.handleClick}/>:<div>
-                {/* {!this.state.startGame?<button onClick={(e) =>this.handleClick(e)}>start</button>:<div> */}
-                    {/* <p>Score: {JSON.stringify(this.state.score)}</p> */}
                     {this.state.speedX === 0?<div className="desktopBackgroundFeria"><div className="flexbox-container">{this.state.score.map((elem,idx) => <div>{idx+1} - {elem.id} - {elem.score}</div>)}</div><Link to="/home"><button>back</button></Link></div>:
                     <div>
                         <div style={{position: "relative"}}>
